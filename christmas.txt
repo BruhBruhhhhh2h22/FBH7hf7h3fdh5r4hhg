@@ -1,0 +1,666 @@
+--https://github.com/Mokiros/roblox-FE-compatibility
+if game:GetService("RunService"):IsClient() then error("Script must be server-side in order to work; use h/ and not hl/") end
+local Player,game,owner = owner,game
+local RealPlayer = Player
+do
+	print("FE Compatibility code V2 by Mokiros")
+	local RealPlayer = RealPlayer
+	script.Parent = RealPlayer.Character
+
+	--Fake event to make stuff like Mouse.KeyDown work
+	local Disconnect_Function = function(this)
+		this[1].Functions[this[2]] = nil
+	end
+	local Disconnect_Metatable = {__index={disconnect=Disconnect_Function,Disconnect=Disconnect_Function}}
+	local FakeEvent_Metatable = {__index={
+		Connect = function(this,f)
+			local i = tostring(math.random(0,10000))
+			while this.Functions[i] do
+				i = tostring(math.random(0,10000))
+			end
+			this.Functions[i] = f
+			return setmetatable({this,i},Disconnect_Metatable)
+		end
+	}}
+	FakeEvent_Metatable.__index.connect = FakeEvent_Metatable.__index.Connect
+	local function fakeEvent()
+		return setmetatable({Functions={}},FakeEvent_Metatable)
+	end
+
+	--Creating fake input objects with fake variables
+    local FakeMouse = {Hit=CFrame.new(),KeyUp=fakeEvent(),KeyDown=fakeEvent(),Button1Up=fakeEvent(),Button1Down=fakeEvent(),Button2Up=fakeEvent(),Button2Down=fakeEvent()}
+    FakeMouse.keyUp = FakeMouse.KeyUp
+    FakeMouse.keyDown = FakeMouse.KeyDown
+	local UIS = {InputBegan=fakeEvent(),InputEnded=fakeEvent()}
+	local CAS = {Actions={},BindAction=function(self,name,fun,touch,...)
+		CAS.Actions[name] = fun and {Name=name,Function=fun,Keys={...}} or nil
+	end}
+	--Merged 2 functions into one by checking amount of arguments
+	CAS.UnbindAction = CAS.BindAction
+
+	--This function will trigger the events that have been :Connect()'ed
+	local function TriggerEvent(self,ev,...)
+		for _,f in pairs(self[ev].Functions) do
+			f(...)
+		end
+	end
+	FakeMouse.TriggerEvent = TriggerEvent
+	UIS.TriggerEvent = TriggerEvent
+
+	--Client communication
+	local Event = Instance.new("RemoteEvent")
+	Event.Name = "UserInput_Event"
+	Event.OnServerEvent:Connect(function(plr,io)
+	    if plr~=RealPlayer then return end
+		FakeMouse.Target = io.Target
+		FakeMouse.Hit = io.Hit
+		if not io.isMouse then
+			local b = io.UserInputState == Enum.UserInputState.Begin
+			if io.UserInputType == Enum.UserInputType.MouseButton1 then
+				return FakeMouse:TriggerEvent(b and "Button1Down" or "Button1Up")
+			end
+			if io.UserInputType == Enum.UserInputType.MouseButton2 then
+				return FakeMouse:TriggerEvent(b and "Button2Down" or "Button2Up")
+			end
+			for _,t in pairs(CAS.Actions) do
+				for _,k in pairs(t.Keys) do
+					if k==io.KeyCode then
+						t.Function(t.Name,io.UserInputState,io)
+					end
+				end
+			end
+			FakeMouse:TriggerEvent(b and "KeyDown" or "KeyUp",io.KeyCode.Name:lower())
+			UIS:TriggerEvent(b and "InputBegan" or "InputEnded",io,false)
+	    end
+	end)
+	Event.Parent = NLS([==[local Event = script:WaitForChild("UserInput_Event")
+	local Mouse = owner:GetMouse()
+	local UIS = game:GetService("UserInputService")
+	local input = function(io,RobloxHandled)
+		if RobloxHandled then return end
+		--Since InputObject is a client-side instance, we create and pass table instead
+		Event:FireServer({KeyCode=io.KeyCode,UserInputType=io.UserInputType,UserInputState=io.UserInputState,Hit=Mouse.Hit,Target=Mouse.Target})
+	end
+	UIS.InputBegan:Connect(input)
+	UIS.InputEnded:Connect(input)
+
+	local h,t
+	--Give the server mouse data every second frame, but only if the values changed
+	--If player is not moving their mouse, client won't fire events
+	local HB = game:GetService("RunService").Heartbeat
+	while true do
+		if h~=Mouse.Hit or t~=Mouse.Target then
+			h,t=Mouse.Hit,Mouse.Target
+			Event:FireServer({isMouse=true,Target=t,Hit=h})
+		end
+		--Wait 2 frames
+		for i=1,2 do
+			HB:Wait()
+		end
+	end]==],script)
+
+	----Sandboxed game object that allows the usage of client-side methods and services
+	--Real game object
+	local RealGame = game
+
+	--Metatable for fake service
+	local FakeService_Metatable = {
+		__index = function(self,k)
+			local s = rawget(self,"_RealService")
+			if s then
+				return typeof(s[k])=="function"
+				and function(_,...)return s[k](s,...)end or s[k]
+			end
+		end,
+		__newindex = function(self,k,v)
+			local s = rawget(self,"_RealService")
+			if s then s[k]=v end
+		end
+	}
+	local function FakeService(t,RealService)
+		t._RealService = typeof(RealService)=="string" and RealGame:GetService(RealService) or RealService
+		return setmetatable(t,FakeService_Metatable)
+	end
+
+	--Fake game object
+	local FakeGame = {
+		GetService = function(self,s)
+			return rawget(self,s) or RealGame:GetService(s)
+		end,
+		Players = FakeService({
+			LocalPlayer = FakeService({GetMouse=function(self)return FakeMouse end},Player)
+		},"Players"),
+		UserInputService = FakeService(UIS,"UserInputService"),
+		ContextActionService = FakeService(CAS,"ContextActionService"),
+		RunService = FakeService({
+			_btrs = {},
+			RenderStepped = RealGame:GetService("RunService").Heartbeat,
+			BindToRenderStep = function(self,name,_,fun)
+				self._btrs[name] = self.Heartbeat:Connect(fun)
+			end,
+			UnbindFromRenderStep = function(self,name)
+				self._btrs[name]:Disconnect()
+			end,
+		},"RunService")
+	}
+	rawset(FakeGame.Players,"localPlayer",FakeGame.Players.LocalPlayer)
+	FakeGame.service = FakeGame.GetService
+	FakeService(FakeGame,game)
+	--Changing owner to fake player object to support owner:GetMouse()
+	game,owner = FakeGame,FakeGame.Players.LocalPlayer
+end
+--terribly made server destruction ik
+local hint = Instance.new("Hint")
+hint.Parent = workspace
+local Length = 22 -- How many letters at a time
+
+function GetText(Text)
+	local Message = ""
+	for I = 1, string.len(Text), 1 do 
+		Message = string.sub(string.sub(Text, I), 1, Length)
+		-- Do something with the message
+		hint.Text = (Message)
+		--------------------------------
+		wait(0.2)
+	end
+end
+coroutine.resume(coroutine.create(function()
+	while true do
+
+
+		GetText("                           MERRY CHRISTMAS 1998 AND A HAPPY NEW YEAR!!!!!!")
+
+
+
+
+	end
+end))
+local s = Instance.new("Sound",workspace)
+s.SoundId = "song"
+coroutine.resume(coroutine.create(function()
+	while true do
+
+
+		s.Looped = true
+		s.SoundId = "rbxassetid://6098419898"
+
+		s.Looped = true
+
+		s.PlaybackSpeed = 0.3
+		s:Play()
+
+		wait (0.3)
+
+		s:Play()
+
+		wait (0.3)
+
+		s:Play()
+
+		wait (0.5)
+
+		s:Play()
+
+		wait (0.3)
+
+		s:Play()
+
+		wait (0.3)
+
+		s:Play()
+
+		wait (0.5)
+
+
+
+
+		s:Play()
+
+		wait (0.3)
+		s.PlaybackSpeed = 0.4
+		s:Play()
+
+		wait (0.3)
+		s.PlaybackSpeed = 0.1
+		s:Play()
+
+		wait (0.5)
+		s:Play()
+		s.PlaybackSpeed = 0.3
+		wait (0.15)
+		s:Play()
+		s.PlaybackSpeed = 0.3
+		wait (1)
+
+		wait (0.3)
+		s.PlaybackSpeed = 0.24
+		s:Play()
+		wait (0.3)
+		s.PlaybackSpeed = 0.24
+		s:Play()
+		wait (0.7)
+		s.PlaybackSpeed = 0.24
+		s:Play()
+		wait (0.3)
+		s.PlaybackSpeed = 0.24
+		s:Play()
+		wait (0.3)
+		s.PlaybackSpeed = 0.24
+		s:Play()
+		wait (0.3)
+		s.PlaybackSpeed = 0.24
+		s:Play()
+
+
+		wait (0.3)
+		s.PlaybackSpeed = 0.22
+		s:Play()
+
+		wait (0.3)
+		s.PlaybackSpeed = 0.24
+		s:Play()
+
+
+		wait (0.3)
+		s.PlaybackSpeed = 0.22
+		s:Play()
+
+
+		wait (0.3)
+		s.PlaybackSpeed = 0.24
+		s:Play()
+
+
+		wait (0.3)
+		s.PlaybackSpeed = 0.22
+		s:Play()
+
+
+		wait (0.3)
+		s.PlaybackSpeed = 0.3
+		s:Play()
+
+
+		wait (0.3)
+		s.PlaybackSpeed = 0.4
+		s:Play()
+
+		wait (0.6)
+
+
+
+
+	end
+end))
+
+
+
+
+local speed = 0.6
+local w = workspace:GetChildren()
+local a = Instance.new("Sky",game.Lighting)
+local b = {"Bk","Dn","Ft","Lf","Rt","Up"}
+for _,v in pairs(b) do
+	a["Skybox"..v]="http://www.roblox.com/asset/?id=8222906368"
+end
+for q,p in pairs(game.Players:GetPlayers()) do
+	local c = Instance.new("ParticleEmitter",p.Character.Head)
+	c.Texture = "http://www.roblox.com/asset/?id=984932133"
+	c.VelocitySpread = 50 end
+
+local numberKeypoints1 = {
+	NumberSequenceKeypoint.new(0, 24);  -- At t=0, size of 0
+	NumberSequenceKeypoint.new(1, 0); -- At t=1, size of 10
+}
+
+local numberKeypoints2 = {
+	NumberSequenceKeypoint.new(0, 54);  -- At t=0, size of 0
+	NumberSequenceKeypoint.new(1, 0); -- At t=1, size of 10
+}
+
+
+for i= 1,#w do
+	if w[i]:isA("BasePart") then
+		pe = Instance.new("ParticleEmitter", w[i])
+		pe.Texture = "http://www.roblox.com/asset/?id=195140839"
+		pe.VelocitySpread = 1111
+		pe.Speed =  NumberRange.new(43, 76)
+		pe.Size = NumberSequence.new(numberKeypoints1)
+
+
+	end end
+for n,m in pairs(game.Players:GetPlayers()) do
+	local dd = Instance.new("ParticleEmitter",m.Character.Head)
+	dd.Texture = "http://www.roblox.com/asset/?id=195140839"
+	dd.Speed =  NumberRange.new(43, 76)
+
+	dd.VelocitySpread = 110 end
+
+
+
+
+
+coroutine.resume(coroutine.create(function()
+	while true do
+
+
+		wait (speed)
+
+		local duck = Instance.new("Part", game.Workspace)
+		duck.Size = Vector3.new(7,7,7)
+		local asd = Instance.new("FileMesh", duck)
+		asd.MeshId = "http://www.roblox.com/asset/?id=19257375"
+		asd.TextureId = "http://www.roblox.com/asset/?id=19257362"
+		asd.Scale = Vector3.new(22,22,22)
+		duck.CanCollide = false
+		local audio = Instance.new("Sound", duck)
+		audio.SoundId = "http://www.roblox.com/asset/?id=19260039"
+		audio:Play()
+		audio.Volume = 8
+		audio.PlayOnRemove = true
+
+
+		duck.CFrame = CFrame.new(math.random(-1000,1000), math.random(300,700), math.random(-1000,1000))
+		local bodyv = Instance.new("BodyVelocity",duck)
+		bodyv.MaxForce = Vector3.new(23423423423,23423432423,32423423423)
+		bodyv.Velocity = Vector3.new(0,-1644,0)
+		bodyv.P = 8
+
+
+		local duck = Instance.new("Part", game.Workspace)
+		duck.Size = Vector3.new(7,7,7)
+		local asd = Instance.new("FileMesh", duck)
+		asd.MeshId = "http://www.roblox.com/asset/?id=19257375"
+		asd.TextureId = "http://www.roblox.com/asset/?id=19257362"
+		asd.Scale = Vector3.new(22,22,22)
+		duck.CanCollide = false
+		local audio = Instance.new("Sound", duck)
+		audio.SoundId = "http://www.roblox.com/asset/?id=19260039"
+		audio:Play()
+		audio.Volume = 8
+		audio.PlayOnRemove = true
+
+
+		duck.CFrame = CFrame.new(math.random(-1000,1000), math.random(300,700), math.random(-1000,1000))
+		local bodyv = Instance.new("BodyVelocity",duck)
+		bodyv.MaxForce = Vector3.new(23423423423,23423432423,32423423423)
+		bodyv.Velocity = Vector3.new(0,-888,0)
+		bodyv.P = 8
+
+
+
+
+		speed -= 0.01
+
+		wait (speed)
+
+		local duck = Instance.new("Part", game.Workspace)
+		duck.Size = Vector3.new(7,7,7)
+		local asd = Instance.new("FileMesh", duck)
+		asd.MeshId = "http://www.roblox.com/asset/?id=18813348"
+		asd.TextureId = "http://www.roblox.com/asset/?id=18813329"
+		asd.Scale = Vector3.new(22,22,22)
+		duck.CanCollide = false
+		local audio = Instance.new("Sound", duck)
+		audio.SoundId = "http://www.roblox.com/asset/?id=18970450"
+		audio:Play()
+		audio.Volume = 8
+		audio.PlayOnRemove = true
+
+
+		duck.CFrame = CFrame.new(math.random(-1000,1000), math.random(300,700), math.random(-1000,1000))
+		local bodyv = Instance.new("BodyVelocity",duck)
+		bodyv.MaxForce = Vector3.new(23423423423,23423432423,32423423423)
+		bodyv.Velocity = Vector3.new(0,-1644,0)
+		bodyv.P = 8
+
+
+		local duck = Instance.new("Part", game.Workspace)
+		duck.Size = Vector3.new(7,7,7)
+		local asd = Instance.new("FileMesh", duck)
+		asd.MeshId = "http://www.roblox.com/asset/?id=18813348"
+		asd.TextureId = "http://www.roblox.com/asset/?id=18813329"
+		asd.Scale = Vector3.new(22,22,22)
+		duck.CanCollide = false
+		local audio = Instance.new("Sound", duck)
+		audio.SoundId = "http://www.roblox.com/asset/?id=18970450"
+		audio:Play()
+		audio.Volume = 8
+		audio.PlayOnRemove = true
+
+
+		duck.CFrame = CFrame.new(math.random(-1000,1000), math.random(300,700), math.random(-1000,1000))
+		local bodyv = Instance.new("BodyVelocity",duck)
+		bodyv.MaxForce = Vector3.new(23423423423,23423432423,32423423423)
+		bodyv.Velocity = Vector3.new(0,-888,0)
+		bodyv.P = 8
+
+
+
+
+
+
+	end
+
+
+end))
+coroutine.resume(coroutine.create(function()
+	while true do
+		wait (1.6)
+		for i, v in pairs(game.Players:GetChildren()) do--this is going down in order of evrything in players, v is the variable
+			p = v.Character
+
+
+			local weld = Instance.new("Weld",p.Head)
+			weld.Part0 = p.Head
+
+			local train = Instance.new("Part",p.Head)
+			train.Anchored = true
+			train.CanCollide = false
+			train.Size = Vector3.new(3,2,6)
+			train.CustomPhysicalProperties = PhysicalProperties.new(0,0,0,0,0)
+			weld.Part1 = train
+			weld.C1 = CFrame.new(0,0,0) * CFrame.Angles(0,math.rad(180),0)
+			train.Anchored = false
+			local TrainMesh = Instance.new("SpecialMesh",train)
+			TrainMesh.MeshType = Enum.MeshType.FileMesh
+			TrainMesh.Scale = Vector3.new(2,2,2)
+			TrainMesh.MeshId = "http://www.roblox.com/asset/?id=332731887"
+			TrainMesh.TextureId = "http://www.roblox.com/asset/?id=332731766"
+
+
+			local weld2 = Instance.new("Weld",p.Head)
+			weld2.Part0 = p.Head
+			local Smoke = Instance.new("Part",p.Head)
+			Smoke.Anchored = true
+			Smoke.CanCollide = false
+			Smoke.Size = Vector3.new(1,1,1)
+			Smoke.CustomPhysicalProperties = PhysicalProperties.new(0,0,0,0,0)
+			weld2.Part1 = Smoke
+			weld2.C1 = CFrame.new(0,-4,3.5)-- * CFrame.Angles(0,math.rad(180),0)
+			Smoke.Anchored = false
+			Smoke.Transparency = 1;
+
+			p.Humanoid.WalkSpeed = 60;
+
+
+			for i,v in pairs(p:GetChildren()) do
+				if v:IsA("Part") then
+					v.Transparency = 1;
+				elseif v:IsA("Hat") then
+					v:Destroy()
+				elseif v:IsA("Model") then
+					v:Destroy()
+				end
+			end
+		end
+
+		local playerLeaderstats = {}
+		for i, v in pairs(game.Players:GetChildren()) do
+			table.insert(playerLeaderstats, v)
+		end
+	end
+end))
+
+
+
+
+
+
+
+wait (26)
+
+
+
+
+for i= 1,#w do
+	if w[i]:isA("BasePart") then
+		pe = Instance.new("ParticleEmitter", w[i])
+		pe.Texture = "http://www.roblox.com/asset/?id=195140839"
+		pe.VelocitySpread = 1111
+		pe.Speed =  NumberRange.new(83, 122)
+		pe.Size = NumberSequence.new(numberKeypoints2)
+		pe.Rate = 60
+
+	end end
+
+
+
+
+
+wait (6)
+
+
+
+
+
+coroutine.resume(coroutine.create(function()
+	while true do
+
+
+		wait (speed)
+		local duck34 = Instance.new("Part", game.Workspace)
+
+		duck34.Size = Vector3.new(4,4,4)
+		local asd = Instance.new("FileMesh", duck34)
+		asd.MeshId = "http://www.roblox.com/asset/?id=66887781"
+		asd.TextureId = "http://www.roblox.com/asset/?id=190000485 "
+		asd.Scale = Vector3.new(5,5,5)
+		duck34.CanCollide = true
+		local audio = Instance.new("Sound", duck34)
+		audio.SoundId = "http://www.roblox.com/asset/?id=19260039"
+		audio:Play()
+		audio.Volume = 8
+		audio.PlayOnRemove = true
+
+
+		duck34.CFrame = CFrame.new(math.random(-1000,1000), math.random(300,700), math.random(-1000,1000))
+		
+		
+		
+		
+	
+			
+			
+			
+		speed -= 0.01
+
+		wait (speed)
+
+
+		local duck = Instance.new("Part", game.Workspace)
+		duck.Size = Vector3.new(7,7,7)
+		local asd = Instance.new("FileMesh", duck)
+		asd.MeshId = "http://www.roblox.com/asset/?id=138389042"
+		asd.TextureId = "http://www.roblox.com/asset/?id=138389066"
+		asd.Scale = Vector3.new(5,5,5)
+		duck.CanCollide = false
+		local audio = Instance.new("Sound", duck)
+		audio.SoundId = "rbxassetid://8449305114"
+		audio:Play()
+		audio.Volume = 8
+		audio.PlayOnRemove = true
+
+
+		duck.CFrame = CFrame.new(math.random(-1000,1000), math.random(300,700), math.random(-1000,1000))
+		local bodyv = Instance.new("BodyVelocity",duck)
+		bodyv.MaxForce = Vector3.new(23423423423,23423432423,32423423423)
+		bodyv.Velocity = Vector3.new(0,-888,0)
+		bodyv.P = 8
+
+wait (2.5)
+		local e = Instance.new("Explosion") -- IT DOES NOT HAVE TO BE "E" IT CAN BE ANY LETTER. I JUST LIKE USING THIS
+
+		e.BlastRadius = 50 --THE RADIUS, THE BIGGER THE RADIUS, THE BIGGER IT IS
+
+		e.BlastPressure = 120 -- THE BLAST PRESSURE IS HOW POWERFUL IT IS. THE HIGHER, THE MORE DEADLY AND THE MORE UNANCHORED BRICKS WILL GO FLYING
+
+		e.Parent = game.Workspace -- DO NOT TOUCH UNLESS YOU KNOW WHAT YOURE DOING
+
+		e.Position = duck34.Position
+		duck34:Remove()
+
+
+
+
+		wait (0.3)
+
+
+	end
+
+
+end))
+
+
+
+
+
+
+coroutine.resume(coroutine.create(function()
+	while true do
+
+
+
+
+
+
+
+
+
+local duck = Instance.new("Part", game.Workspace)
+duck.Size = Vector3.new(7,7,7)
+local asd = Instance.new("FileMesh", duck)
+asd.MeshId = "http://www.roblox.com/asset/?id=138389042"
+asd.TextureId = "http://www.roblox.com/asset/?id=138389066"
+asd.Scale = Vector3.new(5,5,5)
+duck.CanCollide = false
+local audio = Instance.new("Sound", duck)
+audio.SoundId = "rbxassetid://8449305114"
+audio:Play()
+audio.Volume = 4
+audio.PlayOnRemove = true
+
+
+duck.CFrame = CFrame.new(math.random(-1000,1000), math.random(300,700), math.random(-1000,1000))
+local bodyv = Instance.new("BodyVelocity",duck)
+bodyv.MaxForce = Vector3.new(23423423423,23423432423,32423423423)
+bodyv.Velocity = Vector3.new(0,-888,0)
+		bodyv.P = 8
+		
+		wait (0.3)
+	end
+
+
+end))
+
+
+wait (10)
+
+game.Workspace.Gravity = 0
+
+
+for _, v in next, workspace:GetDescendants() do
+	if v:IsA("BasePart") then
+		v.Anchored = false
+	end
+end
