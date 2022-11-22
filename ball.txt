@@ -1,0 +1,638 @@
+
+--Converted with ttyyuu12345's model to script plugin v4
+function sandbox(var,func)
+	local env = getfenv(func)
+	local newenv = setmetatable({},{
+		__index = function(self,k)
+			if k=="script" then
+				return var
+			else
+				return env[k]
+			end
+		end,
+	})
+	setfenv(func,newenv)
+	return func
+end
+cors = {}
+mas = Instance.new("Model",game:GetService("Lighting"))
+Model0 = Instance.new("Model")
+MeshPart1 = Instance.new("MeshPart")
+ParticleEmitter2 = Instance.new("ParticleEmitter")
+ParticleEmitter3 = Instance.new("ParticleEmitter")
+ParticleEmitter4 = Instance.new("ParticleEmitter")
+ParticleEmitter5 = Instance.new("ParticleEmitter")
+ParticleEmitter6 = Instance.new("ParticleEmitter")
+ParticleEmitter7 = Instance.new("ParticleEmitter")
+ParticleEmitter8 = Instance.new("ParticleEmitter")
+ParticleEmitter9 = Instance.new("ParticleEmitter")
+ParticleEmitter10 = Instance.new("ParticleEmitter")
+ParticleEmitter11 = Instance.new("ParticleEmitter")
+ParticleEmitter12 = Instance.new("ParticleEmitter")
+ParticleEmitter13 = Instance.new("ParticleEmitter")
+Script14 = Instance.new("Script")
+Script15 = Instance.new("Script")
+Script16 = Instance.new("Script")
+Script17 = Instance.new("Script")
+Script18 = Instance.new("Script")
+Script19 = Instance.new("Script")
+Script20 = Instance.new("Script")
+Sound21 = Instance.new("Sound")
+MeshPart22 = Instance.new("MeshPart")
+ParticleEmitter23 = Instance.new("ParticleEmitter")
+ParticleEmitter24 = Instance.new("ParticleEmitter")
+ParticleEmitter25 = Instance.new("ParticleEmitter")
+ParticleEmitter26 = Instance.new("ParticleEmitter")
+ParticleEmitter27 = Instance.new("ParticleEmitter")
+ParticleEmitter28 = Instance.new("ParticleEmitter")
+ParticleEmitter29 = Instance.new("ParticleEmitter")
+ParticleEmitter30 = Instance.new("ParticleEmitter")
+ParticleEmitter31 = Instance.new("ParticleEmitter")
+ParticleEmitter32 = Instance.new("ParticleEmitter")
+ParticleEmitter33 = Instance.new("ParticleEmitter")
+ParticleEmitter34 = Instance.new("ParticleEmitter")
+Script35 = Instance.new("Script")
+Script36 = Instance.new("Script")
+Script37 = Instance.new("Script")
+Script38 = Instance.new("Script")
+Script39 = Instance.new("Script")
+Sound40 = Instance.new("Sound")
+Script41 = Instance.new("Script")
+Model0.Parent = mas
+MeshPart1.Name = "Puddle"
+MeshPart1.Parent = Model0
+MeshPart1.CFrame = CFrame.new(16.7323761, 3.07915664, -25.1797791, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+MeshPart1.Position = Vector3.new(16.732376098632812, 3.0791566371917725, -25.179779052734375)
+MeshPart1.Color = Color3.new(0.0666667, 0.0666667, 0.0666667)
+MeshPart1.Size = Vector3.new(45.036338806152344, 6.158313274383545, 62.41835021972656)
+MeshPart1.BrickColor = BrickColor.new("Really black")
+MeshPart1.CanCollide = false
+MeshPart1.Material = Enum.Material.Neon
+MeshPart1.brickColor = BrickColor.new("Really black")
+ParticleEmitter2.Parent = MeshPart1
+ParticleEmitter2.Speed = NumberRange.new(0, 0)
+ParticleEmitter2.Color = ColorSequence.new(Color3.new(0, 0, 0),Color3.new(0, 0, 0))
+ParticleEmitter2.LightInfluence = 1
+ParticleEmitter2.Texture = "rbxassetid://8546937977"
+ParticleEmitter2.Size = NumberSequence.new(0.5,0.5)
+ParticleEmitter2.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter2.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter2.Rate = 7000
+ParticleEmitter3.Parent = MeshPart1
+ParticleEmitter3.Speed = NumberRange.new(0, 0)
+ParticleEmitter3.Color = ColorSequence.new(Color3.new(0, 0, 0),Color3.new(0, 0, 0))
+ParticleEmitter3.LightEmission = 1
+ParticleEmitter3.LightInfluence = 1
+ParticleEmitter3.Texture = "rbxassetid://8546937977"
+ParticleEmitter3.Size = NumberSequence.new(0.5,0.5)
+ParticleEmitter3.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter3.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter3.Rate = 7000
+ParticleEmitter4.Name = "ParticleEmitterB"
+ParticleEmitter4.Parent = MeshPart1
+ParticleEmitter4.Speed = NumberRange.new(0, 0)
+ParticleEmitter4.Color = ColorSequence.new(Color3.new(0, 0, 1),Color3.new(0, 0, 1))
+ParticleEmitter4.LightInfluence = 1
+ParticleEmitter4.Texture = "rbxassetid://6888586040"
+ParticleEmitter4.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter4.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter4.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter4.Rate = 7000
+ParticleEmitter5.Name = "ParticleEmitterB"
+ParticleEmitter5.Parent = MeshPart1
+ParticleEmitter5.Speed = NumberRange.new(0, 0)
+ParticleEmitter5.Color = ColorSequence.new(Color3.new(0, 0, 1),Color3.new(0, 0, 1))
+ParticleEmitter5.LightEmission = 1
+ParticleEmitter5.LightInfluence = 1
+ParticleEmitter5.Texture = "rbxassetid://6888586040"
+ParticleEmitter5.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter5.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter5.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter5.Rate = 7000
+ParticleEmitter6.Name = "ParticleEmitterG"
+ParticleEmitter6.Parent = MeshPart1
+ParticleEmitter6.Speed = NumberRange.new(0, 0)
+ParticleEmitter6.Color = ColorSequence.new(Color3.new(0, 1, 0),Color3.new(0, 1, 0))
+ParticleEmitter6.LightEmission = 1
+ParticleEmitter6.LightInfluence = 1
+ParticleEmitter6.Texture = "rbxassetid://6888586040"
+ParticleEmitter6.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter6.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter6.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter6.Rate = 7000
+ParticleEmitter7.Name = "ParticleEmitterG"
+ParticleEmitter7.Parent = MeshPart1
+ParticleEmitter7.Speed = NumberRange.new(0, 0)
+ParticleEmitter7.Color = ColorSequence.new(Color3.new(0, 1, 0),Color3.new(0, 1, 0))
+ParticleEmitter7.LightInfluence = 1
+ParticleEmitter7.Texture = "rbxassetid://6888586040"
+ParticleEmitter7.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter7.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter7.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter7.Rate = 7000
+ParticleEmitter8.Name = "ParticleEmitterP"
+ParticleEmitter8.Parent = MeshPart1
+ParticleEmitter8.Speed = NumberRange.new(0, 0)
+ParticleEmitter8.Color = ColorSequence.new(Color3.new(1, 0, 1),Color3.new(1, 0, 1))
+ParticleEmitter8.LightEmission = 1
+ParticleEmitter8.LightInfluence = 1
+ParticleEmitter8.Texture = "rbxassetid://6888586040"
+ParticleEmitter8.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter8.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter8.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter8.Rate = 7000
+ParticleEmitter9.Name = "ParticleEmitterP"
+ParticleEmitter9.Parent = MeshPart1
+ParticleEmitter9.Speed = NumberRange.new(0, 0)
+ParticleEmitter9.Color = ColorSequence.new(Color3.new(1, 0, 1),Color3.new(1, 0, 1))
+ParticleEmitter9.LightInfluence = 1
+ParticleEmitter9.Texture = "rbxassetid://6888586040"
+ParticleEmitter9.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter9.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter9.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter9.Rate = 7000
+ParticleEmitter10.Name = "ParticleEmitterR"
+ParticleEmitter10.Parent = MeshPart1
+ParticleEmitter10.Speed = NumberRange.new(0, 0)
+ParticleEmitter10.Color = ColorSequence.new(Color3.new(1, 0, 0),Color3.new(1, 0, 0))
+ParticleEmitter10.LightEmission = 1
+ParticleEmitter10.LightInfluence = 1
+ParticleEmitter10.Texture = "rbxassetid://6888586040"
+ParticleEmitter10.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter10.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter10.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter10.Rate = 7000
+ParticleEmitter11.Name = "ParticleEmitterR"
+ParticleEmitter11.Parent = MeshPart1
+ParticleEmitter11.Speed = NumberRange.new(0, 0)
+ParticleEmitter11.Color = ColorSequence.new(Color3.new(1, 0, 0),Color3.new(1, 0, 0))
+ParticleEmitter11.LightInfluence = 1
+ParticleEmitter11.Texture = "rbxassetid://6888586040"
+ParticleEmitter11.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter11.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter11.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter11.Rate = 7000
+ParticleEmitter12.Name = "ParticleEmitterY"
+ParticleEmitter12.Parent = MeshPart1
+ParticleEmitter12.Speed = NumberRange.new(0, 0)
+ParticleEmitter12.Color = ColorSequence.new(Color3.new(1, 1, 0),Color3.new(1, 1, 0))
+ParticleEmitter12.LightEmission = 1
+ParticleEmitter12.LightInfluence = 1
+ParticleEmitter12.Texture = "rbxassetid://6888586040"
+ParticleEmitter12.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter12.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter12.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter12.Rate = 7000
+ParticleEmitter13.Name = "ParticleEmitterY"
+ParticleEmitter13.Parent = MeshPart1
+ParticleEmitter13.Speed = NumberRange.new(0, 0)
+ParticleEmitter13.Color = ColorSequence.new(Color3.new(1, 1, 0),Color3.new(1, 1, 0))
+ParticleEmitter13.LightInfluence = 1
+ParticleEmitter13.Texture = "rbxassetid://6888586040"
+ParticleEmitter13.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter13.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter13.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter13.Rate = 7000
+Script14.Parent = MeshPart1
+table.insert(cors,sandbox(Script14,function()
+function onTouch(hit)
+
+	local fire4 = script.Parent.ParticleEmitterY:clone()
+	fire4.Parent = hit
+	local fire5 = script.Parent.ParticleEmitterR:clone()
+	fire5.Parent = hit
+	local fire6 = script.Parent.ParticleEmitterP:clone()
+	fire6.Parent = hit
+
+
+	wait (0.2)
+	wait(math.random(1,2))
+
+
+	fire4:Remove()
+
+	fire5:Remove()
+
+	fire6:Remove()
+
+
+
+
+end
+script.Parent.Touched:connect(onTouch)
+end))
+Script15.Name = "Hazard"
+Script15.Parent = MeshPart1
+table.insert(cors,sandbox(Script15,function()
+-- Made by anphu04, 11/17/2017 --
+-- The calculating is to mainly make the tornado looks realistic, you can change it if you want
+
+local tor = script.Parent
+local debounce = false
+local attackrange = 3
+
+--[[function onTouched(p)
+	if not p:FindFirstChild("TornadoSuckingForce") then
+		if debounce == false then
+			debounce = true
+			local bp = Instance.new("BodyPosition")
+			bp.Name = "TornadoSuckingForce"
+			bp.MaxForce = Vector3.new(2000 * p:GetMass(), 2000 * p:GetMass(), 2000 * p:GetMass())
+			bp.Parent = p
+			spawn(function()
+				local height = 0
+				repeat
+					bp.Position = (CFrame.new(tor.Position - Vector3.new(0, tor.Size.Y/2, 0))*CFrame.Angles(0,math.pi*2*((tick()/5)%1),0)*CFrame.new(tor.Size.X/2 + height/50, height, 0)).p -- the x will make the parts get farther away from the tornado, and y will make it move up
+					height = height + (tor.Size.Y/100*0.5) -- aka 2% of it's Y size
+					wait()
+				until height == height * tor.Size.Y/5 -- a very large number but it might fit the looks
+				bp:remove()
+			end)
+			p.Anchored = false
+			p:BreakJoints()
+			game.Debris:AddItem(p, 60)
+			wait(0.1)
+			debounce = false
+		end
+	end
+end]]--
+
+local near = coroutine.resume(coroutine.create(function()
+	while wait() do
+		local region = Region3.new(
+			Vector3.new(tor.Position.X - tor.Size.X/2 - attackrange, tor.Position.Y - tor.Size.Y/2 - attackrange, tor.Position.Z - tor.Size.Z/2 - attackrange),
+	  		Vector3.new(tor.Position.X + tor.Size.X/2 + attackrange, tor.Position.Y + tor.Size.Y/2 + attackrange, tor.Position.Z + tor.Size.Z/2 + attackrange)
+		)
+		local parts = workspace:FindPartsInRegion3(region)
+		for i,p in pairs(parts) do
+			if p:IsA("BasePart") and p.CanCollide == true and p:GetMass() < 1000000 then
+				if not p:FindFirstChild("TornadoSuckingForce") then
+					-- enssential stuff
+					local bp = Instance.new("BodyPosition")
+					bp.Name = "TornadoSuckingForce"
+					bp.MaxForce = Vector3.new(2222 * p:GetMass(), 2222 * p:GetMass(), 2222 * p:GetMass())
+					bp.Parent = p
+					-- this will let the parts handle itself, instead of a whole script handling everything to reduce lag
+					local torvalue = Instance.new("ObjectValue")
+					torvalue.Name = "WhichTornado"
+					torvalue.Value = tor
+					torvalue.Parent = p
+					local scr = script.SuckingScript:Clone()
+					scr.Parent = p
+					scr.Disabled = false
+					-- extra stuff
+					local bav = Instance.new("BodyAngularVelocity")
+					bav.Name = "SuckingRotation"
+					bav.MaxTorque = Vector3.new(4000 * p:GetMass(), 4000 * p:GetMass(), 4000 * p:GetMass())
+					bav.AngularVelocity = Vector3.new(math.random(1,25), math.random(1,25), math.random(1,25))
+					bav.Parent = p
+					
+					
+					
+				end
+			end
+		end
+	end
+end))
+
+--tor.Touched:connect(onTouched)
+
+end))
+Script16.Name = "SuckingScript"
+Script16.Parent = Script15
+table.insert(cors,sandbox(Script16,function()
+local sp = script.Parent
+repeat
+	wait()
+until sp:FindFirstChild("WhichTornado")
+local tor = sp:FindFirstChild("WhichTornado").Value
+local bp = sp:FindFirstChild("TornadoSuckingForce")
+
+
+
+game.Debris:AddItem(sp, 60)
+local height = 0
+repeat
+	bp.Position = (CFrame.new(tor.Position - Vector3.new(0, tor.Size.Y/2, 0))*CFrame.Angles(0,math.pi*2*((tick()/5)%1),0)*CFrame.new(tor.Size.X/2 + height/30, height, 0)).p -- the x will make the parts get farther away from the tornado, and y will make it move up
+	height = height + (tor.Size.Y/100*0.5) -- aka 2% of it's Y size
+	wait()
+until height == tor.Size.Y -- a very large number but it might fit the looks
+bp:remove()
+
+end))
+Script17.Name = "Random Size Block Script"
+Script17.Parent = MeshPart1
+table.insert(cors,sandbox(Script17,function()
+
+while true do
+	script.Parent.Size = Vector3.new(math.random(45.036, 55.036), math.random(4.249, 5.749), math.random(45.036, 55.036)) --This is making it generate a random size out of the simple numbers: 1 out of 100.
+wait(0)
+end
+
+end))
+Script18.Name = "Follow"
+Script18.Parent = MeshPart1
+table.insert(cors,sandbox(Script18,function()
+MainTarget = nil
+SmallestNumber = 23423250
+while wait() do
+MainTarget = nil
+SmallestNumber = 253424230
+for _, Targets in pairs (game.Workspace:GetChildren()) do
+if Targets:FindFirstChildOfClass("Humanoid") and (Targets:FindFirstChildOfClass("Humanoid").Health > 0) and Targets:FindFirstChild("Head") and not (Targets == script.Parent) then
+if ((Targets:FindFirstChild("Head").Position - script.Parent.Position).Magnitude < SmallestNumber) then
+MainTarget = Targets
+SmallestNumber = (Targets:FindFirstChild("Head").Position - script.Parent.Position).Magnitude
+end
+end
+end
+if (MainTarget ~= nil) then
+script.Parent.Velocity = CFrame.lookAt(script.Parent.Position, MainTarget:FindFirstChild("Head").Position):VectorToWorldSpace(Vector3.new(0, 0, -5))
+else
+script.Parent.Velocity = Vector3.new(0, 0, 0)
+end
+end
+end))
+Script19.Name = "Gravity"
+Script19.Parent = MeshPart1
+table.insert(cors,sandbox(Script19,function()
+local GravityChanger = Instance.new("BodyForce")
+GravityChanger.Parent = script.Parent
+while wait() do
+GravityChanger.Force = Vector3.new(0, (script.Parent.Mass * game.Workspace.Gravity), 0)
+end
+end))
+Script20.Name = "Hurt on Touch"
+Script20.Parent = MeshPart1
+table.insert(cors,sandbox(Script20,function()
+function onTouched(part)
+	if part.Parent ~= nil then
+	local humanoid = part.Parent:findFirstChild("Humanoid")
+	if humanoid and debounce==nil then
+		debounce = true
+		--script.Parent.Parent = nil
+		humanoid.Health = humanoid.Health -2 --how much u want it to hurt
+		
+		wait(0.1)
+		debounce = nil
+		end
+	end
+end
+script.Parent.Touched:connect(onTouched)
+end))
+Sound21.Name = "Glitch"
+Sound21.Parent = MeshPart1
+Sound21.Looped = true
+Sound21.MaxDistance = 700
+Sound21.Playing = true
+Sound21.SoundId = "rbxassetid://5159141859"
+MeshPart22.Name = "Puddle"
+MeshPart22.Parent = Model0
+MeshPart22.CFrame = CFrame.new(16.7323761, 3.07915664, -25.1797791, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+MeshPart22.Position = Vector3.new(16.732376098632812, 3.0791566371917725, -25.179779052734375)
+MeshPart22.Color = Color3.new(0.0666667, 0.0666667, 0.0666667)
+MeshPart22.Size = Vector3.new(45.036338806152344, 6.158313274383545, 62.41835021972656)
+MeshPart22.BrickColor = BrickColor.new("Really black")
+MeshPart22.CanCollide = false
+MeshPart22.Material = Enum.Material.Neon
+MeshPart22.brickColor = BrickColor.new("Really black")
+ParticleEmitter23.Parent = MeshPart22
+ParticleEmitter23.Speed = NumberRange.new(0, 0)
+ParticleEmitter23.Color = ColorSequence.new(Color3.new(0, 0, 0),Color3.new(0, 0, 0))
+ParticleEmitter23.LightInfluence = 1
+ParticleEmitter23.Texture = "rbxassetid://8546937977"
+ParticleEmitter23.Size = NumberSequence.new(0.5,0.5)
+ParticleEmitter23.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter23.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter23.Rate = 7000
+ParticleEmitter24.Parent = MeshPart22
+ParticleEmitter24.Speed = NumberRange.new(0, 0)
+ParticleEmitter24.Color = ColorSequence.new(Color3.new(0, 0, 0),Color3.new(0, 0, 0))
+ParticleEmitter24.LightEmission = 1
+ParticleEmitter24.LightInfluence = 1
+ParticleEmitter24.Texture = "rbxassetid://8546937977"
+ParticleEmitter24.Size = NumberSequence.new(0.5,0.5)
+ParticleEmitter24.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter24.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter24.Rate = 7000
+ParticleEmitter25.Name = "ParticleEmitterB"
+ParticleEmitter25.Parent = MeshPart22
+ParticleEmitter25.Speed = NumberRange.new(0, 0)
+ParticleEmitter25.Color = ColorSequence.new(Color3.new(0, 0, 1),Color3.new(0, 0, 1))
+ParticleEmitter25.LightInfluence = 1
+ParticleEmitter25.Texture = "rbxassetid://6888586040"
+ParticleEmitter25.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter25.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter25.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter25.Rate = 7000
+ParticleEmitter26.Name = "ParticleEmitterB"
+ParticleEmitter26.Parent = MeshPart22
+ParticleEmitter26.Speed = NumberRange.new(0, 0)
+ParticleEmitter26.Color = ColorSequence.new(Color3.new(0, 0, 1),Color3.new(0, 0, 1))
+ParticleEmitter26.LightEmission = 1
+ParticleEmitter26.LightInfluence = 1
+ParticleEmitter26.Texture = "rbxassetid://6888586040"
+ParticleEmitter26.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter26.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter26.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter26.Rate = 7000
+ParticleEmitter27.Name = "ParticleEmitterG"
+ParticleEmitter27.Parent = MeshPart22
+ParticleEmitter27.Speed = NumberRange.new(0, 0)
+ParticleEmitter27.Color = ColorSequence.new(Color3.new(0, 1, 0),Color3.new(0, 1, 0))
+ParticleEmitter27.LightEmission = 1
+ParticleEmitter27.LightInfluence = 1
+ParticleEmitter27.Texture = "rbxassetid://6888586040"
+ParticleEmitter27.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter27.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter27.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter27.Rate = 7000
+ParticleEmitter28.Name = "ParticleEmitterG"
+ParticleEmitter28.Parent = MeshPart22
+ParticleEmitter28.Speed = NumberRange.new(0, 0)
+ParticleEmitter28.Color = ColorSequence.new(Color3.new(0, 1, 0),Color3.new(0, 1, 0))
+ParticleEmitter28.LightInfluence = 1
+ParticleEmitter28.Texture = "rbxassetid://6888586040"
+ParticleEmitter28.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter28.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter28.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter28.Rate = 7000
+ParticleEmitter29.Name = "ParticleEmitterP"
+ParticleEmitter29.Parent = MeshPart22
+ParticleEmitter29.Speed = NumberRange.new(0, 0)
+ParticleEmitter29.Color = ColorSequence.new(Color3.new(1, 0, 1),Color3.new(1, 0, 1))
+ParticleEmitter29.LightEmission = 1
+ParticleEmitter29.LightInfluence = 1
+ParticleEmitter29.Texture = "rbxassetid://6888586040"
+ParticleEmitter29.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter29.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter29.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter29.Rate = 7000
+ParticleEmitter30.Name = "ParticleEmitterP"
+ParticleEmitter30.Parent = MeshPart22
+ParticleEmitter30.Speed = NumberRange.new(0, 0)
+ParticleEmitter30.Color = ColorSequence.new(Color3.new(1, 0, 1),Color3.new(1, 0, 1))
+ParticleEmitter30.LightInfluence = 1
+ParticleEmitter30.Texture = "rbxassetid://6888586040"
+ParticleEmitter30.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter30.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter30.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter30.Rate = 7000
+ParticleEmitter31.Name = "ParticleEmitterR"
+ParticleEmitter31.Parent = MeshPart22
+ParticleEmitter31.Speed = NumberRange.new(0, 0)
+ParticleEmitter31.Color = ColorSequence.new(Color3.new(1, 0, 0),Color3.new(1, 0, 0))
+ParticleEmitter31.LightEmission = 1
+ParticleEmitter31.LightInfluence = 1
+ParticleEmitter31.Texture = "rbxassetid://6888586040"
+ParticleEmitter31.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter31.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter31.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter31.Rate = 7000
+ParticleEmitter32.Name = "ParticleEmitterR"
+ParticleEmitter32.Parent = MeshPart22
+ParticleEmitter32.Speed = NumberRange.new(0, 0)
+ParticleEmitter32.Color = ColorSequence.new(Color3.new(1, 0, 0),Color3.new(1, 0, 0))
+ParticleEmitter32.LightInfluence = 1
+ParticleEmitter32.Texture = "rbxassetid://6888586040"
+ParticleEmitter32.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter32.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter32.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter32.Rate = 7000
+ParticleEmitter33.Name = "ParticleEmitterY"
+ParticleEmitter33.Parent = MeshPart22
+ParticleEmitter33.Speed = NumberRange.new(0, 0)
+ParticleEmitter33.Color = ColorSequence.new(Color3.new(1, 1, 0),Color3.new(1, 1, 0))
+ParticleEmitter33.LightEmission = 1
+ParticleEmitter33.LightInfluence = 1
+ParticleEmitter33.Texture = "rbxassetid://6888586040"
+ParticleEmitter33.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter33.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter33.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter33.Rate = 7000
+ParticleEmitter34.Name = "ParticleEmitterY"
+ParticleEmitter34.Parent = MeshPart22
+ParticleEmitter34.Speed = NumberRange.new(0, 0)
+ParticleEmitter34.Color = ColorSequence.new(Color3.new(1, 1, 0),Color3.new(1, 1, 0))
+ParticleEmitter34.LightInfluence = 1
+ParticleEmitter34.Texture = "rbxassetid://6888586040"
+ParticleEmitter34.Size = NumberSequence.new(0.30000001192092896,0.30000001192092896)
+ParticleEmitter34.EmissionDirection = Enum.NormalId.Right
+ParticleEmitter34.Lifetime = NumberRange.new(0.10000000149011612, 0.10000000149011612)
+ParticleEmitter34.Rate = 7000
+Script35.Parent = MeshPart22
+table.insert(cors,sandbox(Script35,function()
+local cooldown = false
+function onTouch(hit)
+	if cooldown == false then
+		cooldown = true
+local fire1 = script.Parent.ParticleEmitter:clone()
+	fire1.Parent = hit
+	local fire2 = script.Parent.ParticleEmitterB:clone()
+	fire2.Parent = hit
+	local fire3 = script.Parent.ParticleEmitterG:clone()
+	fire3.Parent = hit
+
+	wait (0.2)
+	wait(math.random(1,4))
+	
+cooldown = false
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		end
+	
+	
+end
+script.Parent.Touched:connect(onTouch)
+end))
+Script36.Name = "Random Size Block Script"
+Script36.Parent = MeshPart22
+table.insert(cors,sandbox(Script36,function()
+
+while true do
+	script.Parent.Size = Vector3.new(math.random(45.036, 55.036), math.random(4.249, 5.749), math.random(45.036, 55.036)) --This is making it generate a random size out of the simple numbers: 1 out of 100.
+wait(0)
+end
+
+end))
+Script37.Name = "Follow"
+Script37.Parent = MeshPart22
+table.insert(cors,sandbox(Script37,function()
+MainTarget = nil
+SmallestNumber = 234250
+while wait() do
+MainTarget = nil
+SmallestNumber = 250
+for _, Targets in pairs (game.Workspace:GetChildren()) do
+if Targets:FindFirstChildOfClass("Humanoid") and (Targets:FindFirstChildOfClass("Humanoid").Health > 0) and Targets:FindFirstChild("Head") and not (Targets == script.Parent) then
+if ((Targets:FindFirstChild("Head").Position - script.Parent.Position).Magnitude < SmallestNumber) then
+MainTarget = Targets
+SmallestNumber = (Targets:FindFirstChild("Head").Position - script.Parent.Position).Magnitude
+end
+end
+end
+if (MainTarget ~= nil) then
+script.Parent.Velocity = CFrame.lookAt(script.Parent.Position, MainTarget:FindFirstChild("Head").Position):VectorToWorldSpace(Vector3.new(0, 0, -12))
+else
+script.Parent.Velocity = Vector3.new(0, 0, 0)
+end
+end
+end))
+Script38.Name = "Gravity"
+Script38.Parent = MeshPart22
+table.insert(cors,sandbox(Script38,function()
+local GravityChanger = Instance.new("BodyForce")
+GravityChanger.Parent = script.Parent
+while wait() do
+GravityChanger.Force = Vector3.new(0, (script.Parent.Mass * game.Workspace.Gravity), 0)
+end
+end))
+Script39.Name = "Hurt on Touch"
+Script39.Parent = MeshPart22
+table.insert(cors,sandbox(Script39,function()
+function onTouched(part)
+	if part.Parent ~= nil then
+	local humanoid = part.Parent:findFirstChild("Humanoid")
+	if humanoid and debounce==nil then
+		debounce = true
+		--script.Parent.Parent = nil
+			local chaser = script.Parent.AI:Clone()
+			chaser.Parent = humanoid.Parent
+			chaser.Disabled = false
+		wait(0.1)
+		debounce = nil
+		end
+	end
+end
+script.Parent.Touched:connect(onTouched)
+end))
+Sound40.Name = "Glitch"
+Sound40.Parent = MeshPart22
+Sound40.Looped = true
+Sound40.MaxDistance = 700
+Sound40.Playing = true
+Sound40.SoundId = "rbxassetid://7992901987"
+Script41.Name = "AI"
+Script41.Parent = MeshPart22
+Script41.Enabled = false
+table.insert(cors,sandbox(Script41,function()
+local m=script.Parent local e=m.Name local k=m.HumanoidRootPart local b=1+math.random()local f=.6 if true then wait(b)local a=nil local c=m:GetChildren()for b=1,#c do local b=c[b]if(b.className=="Humanoid")then a=b.Name end end b=math.floor(b*100)f=7/m.Humanoid.WalkSpeed end local h=100 local n=k local p=k.Position local l=n.Position local d=p*2 local j=CFrame.new(p)local i=0 local b=100 local c=0 local q=100 local o=0 local g=false function findNearestTorso(b)local d=game.Workspace:children()local c=600 local h=nil local f=nil local g=nil for a=1,#d do g=d[a]if g.className=="Model"then h=g:findFirstChild("HumanoidRootPart")if h~=nil then f=g:findFirstChild("Humanoid")if f~=nil and(f.Health>0)and(g.Name~=e)then if(h.Position-b).magnitude<c then torso=h c=(h.Position-b).magnitude end end end end end return torso end function DrawRay(c,a)local a=Ray.new(c,(a).unit*7)local a,b=game.Workspace:FindPartOnRay(a,m)if false then local d=Instance.new("Part",m)if a then d.BrickColor=BrickColor.new("Bright red")else d.BrickColor=BrickColor.new("New Yeller")end d.Transparency=0.1 d.Anchored=true d.CanCollide=false d.formFactor=Enum.FormFactor.Custom local a=(b-c).magnitude d.Size=Vector3.new(0.6,0.6,a)d.CFrame=CFrame.new(b,c)*CFrame.new(0,0,-a/2)game.Debris:AddItem(d,.9)end return a end function FireRayToward()g=false local c=j*Vector3.new(1,0,0)-Vector3.new(0,.5,0)local a=j*Vector3.new(1,0,0)-j*Vector3.new(-1,0,0)local b=j.lookVector*7 local a=b-a+Vector3.new(0,2,0)local d=DrawRay(c,a)if d then if n.Parent==d.Parent then if d.Name~="HumanoidRootPart"and d.Name~="Head"then d:BreakJoints()d.CanCollide=true else d.Parent.Humanoid:TakeDamage(15)end elseif d.Parent.Name==e then if q>0 then d=nil elseif q==0 then d=k end end end if d~=k then if d then if(d.Name=="Truss"and n.Position.y>p.y-3)or n.Parent==d.Parent then d=nil g=true else if d.Name=="Terrain"then d=nil else d=DrawRay(c+Vector3.new(0,4.5,0),a)if d==nil then m.Humanoid.Jump=true end end end else local a=p.y if n then a=n.Position.y else i=0 end if p.y-3<a then d=DrawRay(p+b*.85,Vector3.new(0,-7,0))if d==nil then d=true else d=nil end end end end return d end function FireAtPlayer()j=CFrame.new(p,Vector3.new(l.x,p.y,l.z))local a=FireRayToward()return a end function FireRay()j=CFrame.new(p,p+Vector3.new(q,0,o))local a=FireRayToward()return a end function TurnRight()if q==0 then q=-o o=0 else o=q q=0 end end function TurnLeft()if q==0 then q=o o=0 else o=-q q=0 end end while k do p=k.Position local a=workspace.Terrain local e=(p-d).magnitude if n==nil then i=0 end if i==0 then n=findNearestTorso(p)if n~=nil then a=n l=n.Position if FireAtPlayer()or e<1 then q=(l.x-p.x)o=(l.z-p.z)if math.abs(q)>math.abs(o)then if q<0 then q=-h else q=h Xdag=q if o<0 then Zdag=-h else Zdag=h end end o=0 else if o<0 then o=-h else o=h end q=0 end b=q c=o i=1 end else p=p*2 end else if g==false or n.Position.y<p.y+3 then if e>=1 then TurnRight()end end end if e<1 then TurnLeft()end if i==1 then if FireRay()then TurnLeft()if FireRay()then TurnLeft()if FireRay()then TurnLeft()if FireRay()then m.Humanoid.Jump=true end end end else if q==b and c==o then i=0 end end l=p+Vector3.new(q,0,o)end script.Parent.Humanoid:MoveTo(l,a)d=p wait(f)end
+end))
+Script41.Disabled = true
+for i,v in pairs(mas:GetChildren()) do
+	v.Parent = workspace
+	pcall(function() v:MakeJoints() end)
+end
+
+for i,v in pairs(cors) do
+	spawn(function()
+		pcall(v)
+	end)
+end
