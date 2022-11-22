@@ -1,0 +1,597 @@
+
+--Converted with ttyyuu12345's model to script plugin v4
+function sandbox(var,func)
+	local env = getfenv(func)
+	local newenv = setmetatable({},{
+		__index = function(self,k)
+			if k=="script" then
+				return var
+			else
+				return env[k]
+			end
+		end,
+	})
+	setfenv(func,newenv)
+	return func
+end
+cors = {}
+mas = Instance.new("Model",game:GetService("Lighting"))
+Model0 = Instance.new("Model")
+Part1 = Instance.new("Part")
+BodyForce2 = Instance.new("BodyForce")
+Sound3 = Instance.new("Sound")
+Sound4 = Instance.new("Sound")
+Sound5 = Instance.new("Sound")
+SpecialMesh6 = Instance.new("SpecialMesh")
+Script7 = Instance.new("Script")
+Script8 = Instance.new("Script")
+Part9 = Instance.new("Part")
+Script10 = Instance.new("Script")
+BodyForce11 = Instance.new("BodyForce")
+Sound12 = Instance.new("Sound")
+Sound13 = Instance.new("Sound")
+Sound14 = Instance.new("Sound")
+SpecialMesh15 = Instance.new("SpecialMesh")
+Script16 = Instance.new("Script")
+Part17 = Instance.new("Part")
+Script18 = Instance.new("Script")
+BodyForce19 = Instance.new("BodyForce")
+Script20 = Instance.new("Script")
+Sound21 = Instance.new("Sound")
+Sound22 = Instance.new("Sound")
+Sound23 = Instance.new("Sound")
+SpecialMesh24 = Instance.new("SpecialMesh")
+Part25 = Instance.new("Part")
+Script26 = Instance.new("Script")
+BodyForce27 = Instance.new("BodyForce")
+Sound28 = Instance.new("Sound")
+Sound29 = Instance.new("Sound")
+Sound30 = Instance.new("Sound")
+Script31 = Instance.new("Script")
+SpecialMesh32 = Instance.new("SpecialMesh")
+Part33 = Instance.new("Part")
+Model0.Name = "HALLOWEEN"
+Model0.Parent = mas
+Part1.Name = "Ghost"
+Part1.Parent = Model0
+Part1.CFrame = CFrame.new(24.6473541, 38.1158447, -62.5257034, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+Part1.Position = Vector3.new(24.647354125976562, 38.1158447265625, -62.52570343017578)
+Part1.Color = Color3.new(0.972549, 0.972549, 0.972549)
+Part1.Transparency = 0.8999999761581421
+Part1.Size = Vector3.new(7.5, 7.5, 7.5)
+Part1.BottomSurface = Enum.SurfaceType.Smooth
+Part1.BrickColor = BrickColor.new("Institutional white")
+Part1.TopSurface = Enum.SurfaceType.Smooth
+Part1.brickColor = BrickColor.new("Institutional white")
+Part1.Shape = Enum.PartType.Ball
+BodyForce2.Name = "Lift"
+BodyForce2.Parent = Part1
+BodyForce2.Force = Vector3.new(0, 411.0249938964844, 0)
+BodyForce2.force = Vector3.new(0, 411.0249938964844, 0)
+Sound3.Name = "Boost"
+Sound3.Parent = Part1
+Sound3.SoundId = "rbxassetid://8535374053"
+Sound3.Volume = 2
+Sound4.Name = "Roll"
+Sound4.Parent = Part1
+Sound4.SoundId = "rbxassetid://3823529284"
+Sound4.Volume = 2
+Sound5.Name = "Zap"
+Sound5.Parent = Part1
+Sound5.SoundId = "rbxassetid://16921115"
+Sound5.Volume = 2
+SpecialMesh6.Parent = Part1
+SpecialMesh6.MeshId = "http://www.roblox.com/asset/?id=36465413"
+SpecialMesh6.Scale = Vector3.new(7, 7, 7)
+SpecialMesh6.TextureId = "http://www.roblox.com/asset/?id=36476864"
+SpecialMesh6.MeshType = Enum.MeshType.FileMesh
+Script7.Parent = Part1
+table.insert(cors,sandbox(Script7,function()
+function onTouched(hit)
+	local human = hit.Parent:findFirstChild("Humanoid")
+	if (human ~= nil) then
+		script.Parent.Transparency = 0
+		human.Health = human.Health - 12
+		wait (0.6)
+		script.Parent.Transparency = 0.9
+	end
+end
+
+--if (script.Parent ~= nil) and (script.Parent.className == "Part") then --Work if in a block
+--	connection = script.Parent.Touched:connect(onTouched)
+--end
+script.Parent.Touched:connect(onTouched)
+
+end))
+Script8.Name = "Program"
+Script8.Parent = Part1
+table.insert(cors,sandbox(Script8,function()
+RM = script.Parent
+D = {140, 40}
+MS = {144, 52}
+R = {150, 12, true, true}
+CP = 62
+F = RM.Lift
+M = {RM.Roll, false, RM.Boost, RM.Zap}
+while RM.Parent ~= nil do
+	wait(0.1)
+	local T = {nil, R[1], {}}
+	local C = Workspace:GetChildren()
+	for I = 1, #C do
+		if C[I] ~= nil and C[I]:FindFirstChild("Humanoid") ~= nil and C[I]:FindFirstChild("Torso") ~= nil and C[I]:FindFirstChild("RM_Invisible") == nil and C[I].Humanoid.Health > 0 and (C[I].Torso.Position - RM.Position).Magnitude <= T[2] and C[I].Torso.Transparency < 0.95 then
+			local Ray = Ray.new(RM.Position, (C[I].Torso.Position - RM.Position).Unit * R[1])
+			local H, P = Workspace:FindPartOnRay(Ray, RM)
+			if H ~= nil and H.Parent == C[I] then
+				table.insert(T[3], #T[3] + 1, {C[I], (P - RM.Position).Magnitude})
+			end
+		end
+	end
+	if #T[3] > 0 then
+		for X = 1, #T[3] do
+			if T[3][X][2] < T[2] then
+				T[1] = T[3][X][1]
+				T[2] = T[3][X][2]
+			end
+		end
+	end
+	if T[1] ~= nil then
+		if T[2] > R[2] or (T[2] > 5 and not R[3]) then
+			local S = {MS[2] * math.min(RM.Friction, 1), (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude, (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Unit}
+			if S[2] > MS[1] - MS[2] then
+				RM.Velocity = RM.Velocity - S[3] * S[1]
+			end
+			RM.Velocity = RM.Velocity + (T[1].Torso.Position - RM.Position).Unit * S[1]
+		elseif T[2] > 5 and R[3] then
+			R[3] = false
+			M[3]:Play()
+			RM.Velocity = RM.Velocity + Vector3.new(0, CP, 0)
+			Delay(0.5, function()
+				RM.Velocity = RM.Velocity + (T[1].Torso.Position - RM.Position).Unit * CP
+			end)
+			Delay(2, function()
+				R[3] = true
+			end)
+		elseif T[2] <= 5 and R[4] then
+			R[4] = false
+			M[4]:Play()
+			RM.Velocity = (Vector3.new(-RM.Velocity.X, RM.Velocity.Y, -RM.Velocity.Z) - Vector3.new(0, 0, 0)).Unit * CP
+			T[1].Torso.Velocity = T[1].Torso.Velocity + (T[1].Torso.Position - RM.Position).Unit * CP
+			T[1].Humanoid.PlatformStand = true
+			Delay(CP / 100, function()
+				T[1].Humanoid.PlatformStand = false
+			end)
+			Delay(2, function()
+				R[4] = true
+			end)
+		end
+	elseif (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude >= MS[2] then
+		RM.Velocity = RM.Velocity - (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Unit * MS[2]
+	end
+	if (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude >= MS[2] and not M[2] then
+		M[1]:Play()
+	elseif (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude < MS[2] and M[2] then
+		M[1]:Stop()
+	end
+	F.force = Vector3.new(0, 196.25 * RM:GetMass() / 2, 0)
+
+end
+end))
+Part9.Name = "Skull"
+Part9.Parent = Model0
+Part9.CFrame = CFrame.new(35.244339, 38.1158447, -62.5257034, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+Part9.Position = Vector3.new(35.24433898925781, 38.1158447265625, -62.52570343017578)
+Part9.Color = Color3.new(0.972549, 0.972549, 0.972549)
+Part9.Size = Vector3.new(7.5, 7.5, 7.5)
+Part9.BottomSurface = Enum.SurfaceType.Smooth
+Part9.BrickColor = BrickColor.new("Institutional white")
+Part9.TopSurface = Enum.SurfaceType.Smooth
+Part9.brickColor = BrickColor.new("Institutional white")
+Part9.Shape = Enum.PartType.Ball
+Script10.Name = "Program"
+Script10.Parent = Part9
+table.insert(cors,sandbox(Script10,function()
+RM = script.Parent
+D = {140, 40}
+MS = {144, 52}
+R = {150, 12, true, true}
+CP = 62
+F = RM.Lift
+M = {RM.Roll, false, RM.Boost, RM.Zap}
+while RM.Parent ~= nil do
+	wait(0.1)
+	local T = {nil, R[1], {}}
+	local C = Workspace:GetChildren()
+	for I = 1, #C do
+		if C[I] ~= nil and C[I]:FindFirstChild("Humanoid") ~= nil and C[I]:FindFirstChild("Torso") ~= nil and C[I]:FindFirstChild("RM_Invisible") == nil and C[I].Humanoid.Health > 0 and (C[I].Torso.Position - RM.Position).Magnitude <= T[2] and C[I].Torso.Transparency < 0.95 then
+			local Ray = Ray.new(RM.Position, (C[I].Torso.Position - RM.Position).Unit * R[1])
+			local H, P = Workspace:FindPartOnRay(Ray, RM)
+			if H ~= nil and H.Parent == C[I] then
+				table.insert(T[3], #T[3] + 1, {C[I], (P - RM.Position).Magnitude})
+			end
+		end
+	end
+	if #T[3] > 0 then
+		for X = 1, #T[3] do
+			if T[3][X][2] < T[2] then
+				T[1] = T[3][X][1]
+				T[2] = T[3][X][2]
+			end
+		end
+	end
+	if T[1] ~= nil then
+		if T[2] > R[2] or (T[2] > 5 and not R[3]) then
+			local S = {MS[2] * math.min(RM.Friction, 1), (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude, (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Unit}
+			if S[2] > MS[1] - MS[2] then
+				RM.Velocity = RM.Velocity - S[3] * S[1]
+			end
+			RM.Velocity = RM.Velocity + (T[1].Torso.Position - RM.Position).Unit * S[1]
+		elseif T[2] > 5 and R[3] then
+			R[3] = false
+			M[3]:Play()
+			RM.Velocity = RM.Velocity + Vector3.new(0, CP, 0)
+			Delay(0.5, function()
+				RM.Velocity = RM.Velocity + (T[1].Torso.Position - RM.Position).Unit * CP
+			end)
+			Delay(2, function()
+				R[3] = true
+			end)
+		elseif T[2] <= 5 and R[4] then
+			R[4] = false
+			M[4]:Play()
+			RM.Velocity = (Vector3.new(-RM.Velocity.X, RM.Velocity.Y, -RM.Velocity.Z) - Vector3.new(0, 0, 0)).Unit * CP
+			T[1].Torso.Velocity = T[1].Torso.Velocity + (T[1].Torso.Position - RM.Position).Unit * CP
+			T[1].Humanoid.PlatformStand = true
+			Delay(CP / 100, function()
+				T[1].Humanoid.PlatformStand = false
+			end)
+			Delay(2, function()
+				R[4] = true
+			end)
+		end
+	elseif (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude >= MS[2] then
+		RM.Velocity = RM.Velocity - (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Unit * MS[2]
+	end
+	if (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude >= MS[2] and not M[2] then
+		M[1]:Play()
+	elseif (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude < MS[2] and M[2] then
+		M[1]:Stop()
+	end
+	F.force = Vector3.new(0, 196.25 * RM:GetMass() / 2, 0)
+
+end
+end))
+BodyForce11.Name = "Lift"
+BodyForce11.Parent = Part9
+BodyForce11.Force = Vector3.new(0, 411.0249938964844, 0)
+BodyForce11.force = Vector3.new(0, 411.0249938964844, 0)
+Sound12.Name = "Boost"
+Sound12.Parent = Part9
+Sound12.SoundId = "rbxassetid://265201042"
+Sound12.Volume = 2
+Sound13.Name = "Roll"
+Sound13.Parent = Part9
+Sound13.SoundId = "rbxassetid://4088518658"
+Sound13.Volume = 2
+Sound14.Name = "Zap"
+Sound14.Parent = Part9
+Sound14.SoundId = "rbxassetid://1920164865"
+Sound14.Volume = 2
+SpecialMesh15.Parent = Part9
+SpecialMesh15.MeshId = "http://www.roblox.com/asset/?id=4770583"
+SpecialMesh15.Scale = Vector3.new(15, 15, 15)
+SpecialMesh15.TextureId = "http://www.roblox.com/asset/?id=4770560"
+SpecialMesh15.MeshType = Enum.MeshType.FileMesh
+Script16.Parent = Part9
+table.insert(cors,sandbox(Script16,function()
+function onTouched(hit)
+	local human = hit.Parent:findFirstChild("Humanoid")
+	if (human ~= nil) then
+		human.Health = human.Health - 12
+	end
+end
+
+--if (script.Parent ~= nil) and (script.Parent.className == "Part") then --Work if in a block
+--	connection = script.Parent.Touched:connect(onTouched)
+--end
+script.Parent.Touched:connect(onTouched)
+
+end))
+Part17.Name = "Pumpkin"
+Part17.Parent = Model0
+Part17.CFrame = CFrame.new(48.5203056, 38.1158447, -62.5257034, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+Part17.Position = Vector3.new(48.52030563354492, 38.1158447265625, -62.52570343017578)
+Part17.Color = Color3.new(0.972549, 0.972549, 0.972549)
+Part17.Size = Vector3.new(7.5, 7.5, 7.5)
+Part17.BottomSurface = Enum.SurfaceType.Smooth
+Part17.BrickColor = BrickColor.new("Institutional white")
+Part17.TopSurface = Enum.SurfaceType.Smooth
+Part17.brickColor = BrickColor.new("Institutional white")
+Part17.Shape = Enum.PartType.Ball
+Script18.Name = "Program"
+Script18.Parent = Part17
+table.insert(cors,sandbox(Script18,function()
+RM = script.Parent
+D = {140, 40}
+MS = {144, 52}
+R = {150, 12, true, true}
+CP = 62
+F = RM.Lift
+M = {RM.Roll, false, RM.Boost, RM.Zap}
+while RM.Parent ~= nil do
+	wait(0.1)
+	local T = {nil, R[1], {}}
+	local C = Workspace:GetChildren()
+	for I = 1, #C do
+		if C[I] ~= nil and C[I]:FindFirstChild("Humanoid") ~= nil and C[I]:FindFirstChild("Torso") ~= nil and C[I]:FindFirstChild("RM_Invisible") == nil and C[I].Humanoid.Health > 0 and (C[I].Torso.Position - RM.Position).Magnitude <= T[2] and C[I].Torso.Transparency < 0.95 then
+			local Ray = Ray.new(RM.Position, (C[I].Torso.Position - RM.Position).Unit * R[1])
+			local H, P = Workspace:FindPartOnRay(Ray, RM)
+			if H ~= nil and H.Parent == C[I] then
+				table.insert(T[3], #T[3] + 1, {C[I], (P - RM.Position).Magnitude})
+			end
+		end
+	end
+	if #T[3] > 0 then
+		for X = 1, #T[3] do
+			if T[3][X][2] < T[2] then
+				T[1] = T[3][X][1]
+				T[2] = T[3][X][2]
+			end
+		end
+	end
+	if T[1] ~= nil then
+		if T[2] > R[2] or (T[2] > 5 and not R[3]) then
+			local S = {MS[2] * math.min(RM.Friction, 1), (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude, (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Unit}
+			if S[2] > MS[1] - MS[2] then
+				RM.Velocity = RM.Velocity - S[3] * S[1]
+			end
+			RM.Velocity = RM.Velocity + (T[1].Torso.Position - RM.Position).Unit * S[1]
+		elseif T[2] > 5 and R[3] then
+			R[3] = false
+			M[3]:Play()
+			RM.Velocity = RM.Velocity + Vector3.new(0, CP, 0)
+			Delay(0.5, function()
+				RM.Velocity = RM.Velocity + (T[1].Torso.Position - RM.Position).Unit * CP
+			end)
+			Delay(2, function()
+				R[3] = true
+			end)
+		elseif T[2] <= 5 and R[4] then
+			R[4] = false
+			M[4]:Play()
+			RM.Velocity = (Vector3.new(-RM.Velocity.X, RM.Velocity.Y, -RM.Velocity.Z) - Vector3.new(0, 0, 0)).Unit * CP
+			T[1].Torso.Velocity = T[1].Torso.Velocity + (T[1].Torso.Position - RM.Position).Unit * CP
+			T[1].Humanoid.PlatformStand = true
+			Delay(CP / 100, function()
+				T[1].Humanoid.PlatformStand = false
+			end)
+			Delay(2, function()
+				R[4] = true
+			end)
+		end
+	elseif (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude >= MS[2] then
+		RM.Velocity = RM.Velocity - (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Unit * MS[2]
+	end
+	if (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude >= MS[2] and not M[2] then
+		M[1]:Play()
+	elseif (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude < MS[2] and M[2] then
+		M[1]:Stop()
+	end
+	F.force = Vector3.new(0, 196.25 * RM:GetMass() / 2, 0)
+
+end
+end))
+BodyForce19.Name = "Lift"
+BodyForce19.Parent = Part17
+BodyForce19.Force = Vector3.new(0, 411.0249938964844, 0)
+BodyForce19.force = Vector3.new(0, 411.0249938964844, 0)
+Script20.Parent = Part17
+table.insert(cors,sandbox(Script20,function()
+function onTouched(hit)
+	local human = hit.Parent:findFirstChild("Humanoid")
+	if (human ~= nil) then
+		hit.Parent:remove()
+		script.Parent.Zap:Play()
+	end
+end
+
+--if (script.Parent ~= nil) and (script.Parent.className == "Part") then --Work if in a block
+--	connection = script.Parent.Touched:connect(onTouched)
+--end
+script.Parent.Touched:connect(onTouched)
+
+end))
+Sound21.Name = "Boost"
+Sound21.Parent = Part17
+Sound21.SoundId = "rbxassetid://6403933038"
+Sound21.Volume = 2
+Sound22.Name = "Roll"
+Sound22.Parent = Part17
+Sound22.SoundId = "rbxassetid://2119133621"
+Sound22.Volume = 2
+Sound23.Name = "Zap"
+Sound23.Parent = Part17
+Sound23.SoundId = "rbxassetid://2691226050"
+Sound23.Volume = 2
+SpecialMesh24.Parent = Part17
+SpecialMesh24.MeshId = "http://www.roblox.com/asset/?id=16973748"
+SpecialMesh24.Scale = Vector3.new(5, 5, 5)
+SpecialMesh24.TextureId = "http://www.roblox.com/asset/?id=16973739"
+SpecialMesh24.MeshType = Enum.MeshType.FileMesh
+Part25.Name = "Zombie"
+Part25.Parent = Model0
+Part25.CFrame = CFrame.new(61.4844208, 38.1158447, -62.5257034, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+Part25.Position = Vector3.new(61.48442077636719, 38.1158447265625, -62.52570343017578)
+Part25.Color = Color3.new(0.972549, 0.972549, 0.972549)
+Part25.Size = Vector3.new(7.5, 7.5, 7.5)
+Part25.BottomSurface = Enum.SurfaceType.Smooth
+Part25.BrickColor = BrickColor.new("Institutional white")
+Part25.TopSurface = Enum.SurfaceType.Smooth
+Part25.brickColor = BrickColor.new("Institutional white")
+Part25.Shape = Enum.PartType.Ball
+Script26.Name = "Program"
+Script26.Parent = Part25
+table.insert(cors,sandbox(Script26,function()
+RM = script.Parent
+D = {140, 40}
+MS = {144, 52}
+R = {150, 12, true, true}
+CP = 62
+F = RM.Lift
+M = {RM.Roll, false, RM.Boost, RM.Zap}
+while RM.Parent ~= nil do
+	wait(0.1)
+	local T = {nil, R[1], {}}
+	local C = Workspace:GetChildren()
+	for I = 1, #C do
+		if C[I] ~= nil and C[I]:FindFirstChild("Humanoid") ~= nil and C[I]:FindFirstChild("Torso") ~= nil and C[I]:FindFirstChild("RM_Invisible") == nil and C[I].Humanoid.Health > 0 and (C[I].Torso.Position - RM.Position).Magnitude <= T[2] and C[I].Torso.Transparency < 0.95 then
+			local Ray = Ray.new(RM.Position, (C[I].Torso.Position - RM.Position).Unit * R[1])
+			local H, P = Workspace:FindPartOnRay(Ray, RM)
+			if H ~= nil and H.Parent == C[I] then
+				table.insert(T[3], #T[3] + 1, {C[I], (P - RM.Position).Magnitude})
+			end
+		end
+	end
+	if #T[3] > 0 then
+		for X = 1, #T[3] do
+			if T[3][X][2] < T[2] then
+				T[1] = T[3][X][1]
+				T[2] = T[3][X][2]
+			end
+		end
+	end
+	if T[1] ~= nil then
+		if T[2] > R[2] or (T[2] > 5 and not R[3]) then
+			local S = {MS[2] * math.min(RM.Friction, 1), (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude, (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Unit}
+			if S[2] > MS[1] - MS[2] then
+				RM.Velocity = RM.Velocity - S[3] * S[1]
+			end
+			RM.Velocity = RM.Velocity + (T[1].Torso.Position - RM.Position).Unit * S[1]
+		elseif T[2] > 5 and R[3] then
+			R[3] = false
+			M[3]:Play()
+			RM.Velocity = RM.Velocity + Vector3.new(0, CP, 0)
+			Delay(0.5, function()
+				RM.Velocity = RM.Velocity + (T[1].Torso.Position - RM.Position).Unit * CP
+			end)
+			Delay(2, function()
+				R[3] = true
+			end)
+		elseif T[2] <= 5 and R[4] then
+			R[4] = false
+			M[4]:Play()
+			RM.Velocity = (Vector3.new(-RM.Velocity.X, RM.Velocity.Y, -RM.Velocity.Z) - Vector3.new(0, 0, 0)).Unit * CP
+			T[1].Torso.Velocity = T[1].Torso.Velocity + (T[1].Torso.Position - RM.Position).Unit * CP
+			T[1].Humanoid.PlatformStand = true
+			Delay(CP / 100, function()
+				T[1].Humanoid.PlatformStand = false
+			end)
+			Delay(2, function()
+				R[4] = true
+			end)
+		end
+	elseif (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude >= MS[2] then
+		RM.Velocity = RM.Velocity - (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Unit * MS[2]
+	end
+	if (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude >= MS[2] and not M[2] then
+		M[1]:Play()
+	elseif (Vector3.new(RM.Velocity.X, 0, RM.Velocity.Z) - Vector3.new(0, 0, 0)).Magnitude < MS[2] and M[2] then
+		M[1]:Stop()
+	end
+	F.force = Vector3.new(0, 196.25 * RM:GetMass() / 2, 0)
+
+end
+end))
+BodyForce27.Name = "Lift"
+BodyForce27.Parent = Part25
+BodyForce27.Force = Vector3.new(0, 411.0249938964844, 0)
+BodyForce27.force = Vector3.new(0, 411.0249938964844, 0)
+Sound28.Name = "Boost"
+Sound28.Parent = Part25
+Sound28.SoundId = "rbxassetid://6517318990"
+Sound28.Volume = 2
+Sound29.Name = "Roll"
+Sound29.Parent = Part25
+Sound29.SoundId = "rbxassetid://7890100316"
+Sound29.Volume = 2
+Sound30.Name = "Zap"
+Sound30.Parent = Part25
+Sound30.SoundId = "rbxassetid://158260415"
+Sound30.Volume = 2
+Script31.Parent = Part25
+table.insert(cors,sandbox(Script31,function()
+function onTouched(hit)
+	local human = hit.Parent:findFirstChild("Humanoid")
+	if (human ~= nil) then
+		human.Health = human.Health - 12
+		
+		
+		
+		wait (0.1)
+		
+		
+		human.Health = human.Health - 12
+
+
+
+		wait (0.1)
+		human.Health = human.Health - 12
+
+
+
+		wait (0.1)
+		human.Health = human.Health - 12
+
+
+
+		wait (0.1)
+		human.Health = human.Health - 12
+
+
+
+		wait (0.1)
+		human.Health = human.Health - 43242
+
+
+
+		wait (0.1)
+		local infected = script.Parent:Clone()
+		
+		infected = workspace
+		infected.Position = script.Parent.Position
+	end
+end
+
+--if (script.Parent ~= nil) and (script.Parent.className == "Part") then --Work if in a block
+--	connection = script.Parent.Touched:connect(onTouched)
+--end
+script.Parent.Touched:connect(onTouched)
+
+end))
+SpecialMesh32.Parent = Part25
+SpecialMesh32.MeshId = "http://www.roblox.com/asset/?id=24477146"
+SpecialMesh32.Scale = Vector3.new(5, 5, 5)
+SpecialMesh32.TextureId = "http://www.roblox.com/asset/?id=25289515"
+SpecialMesh32.MeshType = Enum.MeshType.FileMesh
+Part33.Name = "Baseplate"
+Part33.Parent = Model0
+Part33.CFrame = CFrame.new(0, -10, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+Part33.Position = Vector3.new(0, -10, 0)
+Part33.Color = Color3.new(0.0627451, 0.298039, 0.0470588)
+Part33.Size = Vector3.new(512, 20, 512)
+Part33.Anchored = true
+Part33.BrickColor = BrickColor.new("Earth green")
+Part33.Locked = true
+Part33.Material = Enum.Material.Grass
+Part33.brickColor = BrickColor.new("Earth green")
+Part33.FormFactor = Enum.FormFactor.Symmetric
+Part33.formFactor = Enum.FormFactor.Symmetric
+for i,v in pairs(mas:GetChildren()) do
+	v.Parent = workspace
+	pcall(function() v:MakeJoints() end)
+end
+mas:Destroy()
+for i,v in pairs(cors) do
+	spawn(function()
+		pcall(v)
+	end)
+end
