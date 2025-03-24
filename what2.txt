@@ -1,0 +1,994 @@
+--https://github.com/Mokiros/roblox-FE-compatibility
+if game:GetService("RunService"):IsClient() then error("Script must be server-side in order to work; use h/ and not hl/") end
+local Player,game,owner = owner,game
+local RealPlayer = Player
+do
+	print("FE Compatibility code V2 by Mokiros")
+	local RealPlayer = RealPlayer
+	script.Parent = RealPlayer.Character
+
+	--Fake event to make stuff like Mouse.KeyDown work
+	local Disconnect_Function = function(this)
+		this[1].Functions[this[2]] = nil
+	end
+	local Disconnect_Metatable = {__index={disconnect=Disconnect_Function,Disconnect=Disconnect_Function}}
+	local FakeEvent_Metatable = {__index={
+		Connect = function(this,f)
+			local i = tostring(math.random(0,10000))
+			while this.Functions[i] do
+				i = tostring(math.random(0,10000))
+			end
+			this.Functions[i] = f
+			return setmetatable({this,i},Disconnect_Metatable)
+		end
+	}}
+	FakeEvent_Metatable.__index.connect = FakeEvent_Metatable.__index.Connect
+	local function fakeEvent()
+		return setmetatable({Functions={}},FakeEvent_Metatable)
+	end
+
+	--Creating fake input objects with fake variables
+    local FakeMouse = {Hit=CFrame.new(),KeyUp=fakeEvent(),KeyDown=fakeEvent(),Button1Up=fakeEvent(),Button1Down=fakeEvent(),Button2Up=fakeEvent(),Button2Down=fakeEvent()}
+    FakeMouse.keyUp = FakeMouse.KeyUp
+    FakeMouse.keyDown = FakeMouse.KeyDown
+	local UIS = {InputBegan=fakeEvent(),InputEnded=fakeEvent()}
+	local CAS = {Actions={},BindAction=function(self,name,fun,touch,...)
+		CAS.Actions[name] = fun and {Name=name,Function=fun,Keys={...}} or nil
+	end}
+	--Merged 2 functions into one by checking amount of arguments
+	CAS.UnbindAction = CAS.BindAction
+
+	--This function will trigger the events that have been :Connect()'ed
+	local function TriggerEvent(self,ev,...)
+		for _,f in pairs(self[ev].Functions) do
+			f(...)
+		end
+	end
+	FakeMouse.TriggerEvent = TriggerEvent
+	UIS.TriggerEvent = TriggerEvent
+
+	--Client communication
+	local Event = Instance.new("RemoteEvent")
+	Event.Name = "UserInput_Event"
+	Event.OnServerEvent:Connect(function(plr,io)
+	    if plr~=RealPlayer then return end
+		FakeMouse.Target = io.Target
+		FakeMouse.Hit = io.Hit
+		if not io.isMouse then
+			local b = io.UserInputState == Enum.UserInputState.Begin
+			if io.UserInputType == Enum.UserInputType.MouseButton1 then
+				return FakeMouse:TriggerEvent(b and "Button1Down" or "Button1Up")
+			end
+			if io.UserInputType == Enum.UserInputType.MouseButton2 then
+				return FakeMouse:TriggerEvent(b and "Button2Down" or "Button2Up")
+			end
+			for _,t in pairs(CAS.Actions) do
+				for _,k in pairs(t.Keys) do
+					if k==io.KeyCode then
+						t.Function(t.Name,io.UserInputState,io)
+					end
+				end
+			end
+			FakeMouse:TriggerEvent(b and "KeyDown" or "KeyUp",io.KeyCode.Name:lower())
+			UIS:TriggerEvent(b and "InputBegan" or "InputEnded",io,false)
+	    end
+	end)
+	Event.Parent = NLS([==[local Event = script:WaitForChild("UserInput_Event")
+	local Mouse = owner:GetMouse()
+	local UIS = game:GetService("UserInputService")
+	local input = function(io,RobloxHandled)
+		if RobloxHandled then return end
+		--Since InputObject is a client-side instance, we create and pass table instead
+		Event:FireServer({KeyCode=io.KeyCode,UserInputType=io.UserInputType,UserInputState=io.UserInputState,Hit=Mouse.Hit,Target=Mouse.Target})
+	end
+	UIS.InputBegan:Connect(input)
+	UIS.InputEnded:Connect(input)
+
+	local h,t
+	--Give the server mouse data every second frame, but only if the values changed
+	--If player is not moving their mouse, client won't fire events
+	local HB = game:GetService("RunService").Heartbeat
+	while true do
+		if h~=Mouse.Hit or t~=Mouse.Target then
+			h,t=Mouse.Hit,Mouse.Target
+			Event:FireServer({isMouse=true,Target=t,Hit=h})
+		end
+		--Wait 2 frames
+		for i=1,2 do
+			HB:Wait()
+		end
+	end]==],script)
+
+	----Sandboxed game object that allows the usage of client-side methods and services
+	--Real game object
+	local RealGame = game
+
+	--Metatable for fake service
+	local FakeService_Metatable = {
+		__index = function(self,k)
+			local s = rawget(self,"_RealService")
+			if s then
+				return typeof(s[k])=="function"
+				and function(_,...)return s[k](s,...)end or s[k]
+			end
+		end,
+		__newindex = function(self,k,v)
+			local s = rawget(self,"_RealService")
+			if s then s[k]=v end
+		end
+	}
+	local function FakeService(t,RealService)
+		t._RealService = typeof(RealService)=="string" and RealGame:GetService(RealService) or RealService
+		return setmetatable(t,FakeService_Metatable)
+	end
+
+	--Fake game object
+	local FakeGame = {
+		GetService = function(self,s)
+			return rawget(self,s) or RealGame:GetService(s)
+		end,
+		Players = FakeService({
+			LocalPlayer = FakeService({GetMouse=function(self)return FakeMouse end},Player)
+		},"Players"),
+		UserInputService = FakeService(UIS,"UserInputService"),
+		ContextActionService = FakeService(CAS,"ContextActionService"),
+		RunService = FakeService({
+			_btrs = {},
+			RenderStepped = RealGame:GetService("RunService").Heartbeat,
+			BindToRenderStep = function(self,name,_,fun)
+				self._btrs[name] = self.Heartbeat:Connect(fun)
+			end,
+			UnbindFromRenderStep = function(self,name)
+				self._btrs[name]:Disconnect()
+			end,
+		},"RunService")
+	}
+	rawset(FakeGame.Players,"localPlayer",FakeGame.Players.LocalPlayer)
+	FakeGame.service = FakeGame.GetService
+	FakeService(FakeGame,game)
+	--Changing owner to fake player object to support owner:GetMouse()
+	game,owner = FakeGame,FakeGame.Players.LocalPlayer
+end
+
+local s = Instance.new("Sound") 
+
+s.Name = "pamtri" 
+s.SoundId = "rbxassetid://1031137209" 
+s.Volume = 4 
+s.Looped = true 
+s.archivable = false 
+
+s.Parent = game.Workspace 
+
+wait(0.2) 
+
+s:play()
+local Plr = game.Players.LocalPlayer
+local PChar = Plr.Character
+local plr = game:GetService("Players").LocalPlayer
+local char = plr.Character
+
+function FindInTable(t, n)
+	for i,v in pairs(t) do
+		if v == n then
+			return true
+		end
+	end
+	return false
+end
+--Transformaaaaation--
+char["Left Arm"].BrickColor = BrickColor.new("Pastel brown")
+char["Right Arm"].BrickColor = BrickColor.new("Pastel brown")
+char.Head.BrickColor = BrickColor.new("Pastel brown")
+char["Left Leg"].BrickColor = BrickColor.new("Pastel brown")
+char["Right Leg"].BrickColor = BrickColor.new("Pastel brown")
+
+for i,v in pairs(char:children'') do
+	local toremove = {"CharacterMesh", "Shirt", "Pants", "ShirtGraphic", "Accessory"}
+	if FindInTable(toremove, v.ClassName) then v:Destroy() end
+	if v.ClassName == "BodyColors" then
+		v.HeadColor = BrickColor.new("Lily white")
+		v.LeftArmColor = BrickColor.new("Lily white")
+		v.LeftLegColor = BrickColor.new("Lily white")
+		v.RightArmColor = BrickColor.new("Lily white")
+		v.RightLegColor = BrickColor.new("Lily white")
+		v.TorsoColor = BrickColor.new("Lily white")
+	end
+end
+
+local face = char.Head:FindFirstChild'face' if face then face.Texture = "http://www.roblox.com/asset/?id=329939455" end
+Instance.new("Shirt", char).ShirtTemplate = "http://www.roblox.com/asset/?id=216962370"
+Instance.new("Pants", char).PantsTemplate = "http://www.roblox.com/asset/?id=382537568"
+local function CreateHat(name, meshid, textureid)
+	local h = Instance.new("Accessory")
+	h.Name = name
+	local han = Instance.new("Part", h)
+	han.Name = "Handle"
+	local mesh = Instance.new("SpecialMesh", han)
+	mesh.Name = "Mesh"
+	mesh.MeshId = meshid
+	mesh.TextureId = textureid
+	return h,han,mesh
+end
+hum = char:FindFirstChildOfClass'Humanoid'
+local h,han,mesh = CreateHat("2LEGITOwl", "http://www.roblox.com/asset/?id=0", "http://www.roblox.com/asset/?id=0")
+han.Size = Vector3.new(1, 1, 1)
+mesh.Scale = Vector3.new(0.3, 0.3, 0.3)
+h.AttachmentPos = Vector3.new(1.1, 0.38, 0)
+hum:AddAccessory(h)
+h,han,mesh = CreateHat("RobloxScarf", "http://www.roblox.com/asset/?id=0", "http://www.roblox.com/asset/?id=0")
+mesh.Scale = Vector3.new(3, 3, 3)
+han.Size = Vector3.new(1.9, 2, 2)
+h.AttachmentPos = Vector3.new(0, 1.54, 0.1)
+hum:AddAccessory(h)
+h,han,mesh = CreateHat("Beautiful Hair for Purple People", "http://www.roblox.com/asset/?id=87529", "http://www.roblox.com/asset/?id=1768566787623956")
+mesh.Scale = Vector3.new(1.05, 1.05, 1.05)
+han.Size = Vector3.new(2, 2, 2)
+hum:AddAccessory(h)
+--a function--
+function Say(text)
+	local head = char.Head
+	local fh = head:Clone()
+	fh:ClearAllChildren()
+	fh.Transparency = 1
+	local bg = Instance.new("BillboardGui", fh)
+	bg.Size = UDim2.new(6, 0, 6, 0)
+	bg.StudsOffset = Vector3.new(0, 3, 0)
+	local f = Instance.new("Frame", bg)
+	f.Size = UDim2.new(1, 0, 1, 0)
+	f.BackgroundTransparency = 1
+	local tl = Instance.new("TextLabel", f)
+	tl.BackgroundTransparency = 1
+	tl.Size = UDim2.new(5, 0, 1, 0)
+	tl.Position = UDim2.new(-2, 0, 0)
+	tl.TextColor3 = Color3.new(1, 1, 1)
+	tl.TextScaled = true
+	tl.Text = ""
+	tl.TextColor3 = BrickColor.new("Really black").Color	
+	tl.Font = Enum.Font.Fantasy
+	tl.TextSize = 120
+	fh.Parent = Instance.new("Model", plr.Character)
+	local Joint = Instance.new("Weld", game.JointsService)
+	Joint.Part0 = head
+	Joint.Part1 = fh
+	
+	local letters = {}
+	text:gsub(".",function(c) table.insert(letters,c) end)
+	for i,v in pairs(letters) do
+		tl.Text = tl.Text .. tostring(v)
+		wait(1/20)
+	end
+	wait(1)
+	fh.Parent:Destroy()
+end
+
+function ReloadChat() --hax
+	local chat = plr:FindFirstChildOfClass'PlayerGui':FindFirstChild'SB_Chat'
+	if chat then
+		chat:Destroy()
+	end
+	plr.PlayerScripts.ChatScript:Destroy()
+	game:GetService("Chat").ChatScript:Clone().Parent = plr.PlayerScripts
+	plr:FindFirstChildOfClass'PlayerGui':WaitForChild'Chat'.Name = "SB_Chat"
+end
+local s = Instance.new("Sound") 
+
+s.Name = "pamtri" 
+s.SoundId = "rbxassetid://874084114" 
+s.Volume = 7 
+s.Looped = false 
+s.archivable = false 
+
+s.Parent = game.Workspace 
+
+wait(0.2) 
+
+s:play()
+
+--Converted with ttyyuu12345's model to script plugin v4
+function sandbox(var,func)
+	local env = getfenv(func)
+	local newenv = setmetatable({},{
+		__index = function(self,k)
+			if k=="script" then
+				return var
+			else
+				return env[k]
+			end
+		end,
+	})
+	setfenv(func,newenv)
+	return func
+end
+cors = {}
+mas = Instance.new("Model",game:GetService("Lighting"))
+Tool0 = Instance.new("Tool")
+LocalScript1 = Instance.new("LocalScript")
+NumberValue2 = Instance.new("NumberValue")
+LocalScript3 = Instance.new("LocalScript")
+Script4 = Instance.new("Script")
+Script5 = Instance.new("Script")
+Part6 = Instance.new("Part")
+Sound7 = Instance.new("Sound")
+Sound8 = Instance.new("Sound")
+Sound9 = Instance.new("Sound")
+Part10 = Instance.new("Part")
+Tool0.Name = "Pamtri Gun -(6)"
+Tool0.Parent = mas
+Tool0.Grip = CFrame.new(0, 0, 0, -0.0050099371, 0, 0.999987423, 0, 1, 0, -0.999987423, 0, -0.0050099371)
+Tool0.GripForward = Vector3.new(-0.999987423, -0, 0.0050099371)
+Tool0.GripRight = Vector3.new(-0.0050099371, 0, -0.999987423)
+LocalScript1.Name = "Local Gui"
+LocalScript1.Parent = Tool0
+table.insert(cors,sandbox(LocalScript1,function()
+-------------------------------------Gun info
+ToolName="Pamtri Gun"
+
+ClipSize=6
+ReloadTime=3
+Firerate=.40
+MinSpread=0
+MaxSpread=0
+SpreadRate=0
+BaseDamage=100
+automatic=false
+burst=false
+shot=true		--Shotgun
+BarrlePos=Vector3.new(-2.20,.60,0)
+Cursors={"rbxasset://textures\\GunCursor.png"}
+ReloadCursor="rbxasset://textures\\GunWaitCursor.png"
+-------------------------------------
+equiped=false
+sp=script.Parent
+RayLength=1000
+Spread=0
+enabled=true
+reloading=false
+down=false
+r=game:service("RunService")
+last=0
+last2=0
+last3=0
+last4=0
+last5=0
+last6=0
+
+Bullet=Instance.new("Part")
+Bullet.Name="Bullet"
+Bullet.BrickColor=BrickColor.new("New Yeller")
+Bullet.Anchored=true
+Bullet.CanCollide=false
+Bullet.Locked=true
+Bullet.Size=Vector3.new(1,1,1)
+--Bullet.Transparency=.65
+Bullet.formFactor=0
+Bullet.TopSurface=0
+Bullet.BottomSurface=0
+mesh=Instance.new("SpecialMesh")
+mesh.Parent=Bullet
+mesh.MeshType="Brick"
+mesh.Name="Mesh"
+mesh.Scale=Vector3.new(.15,.15,1)
+
+function check()
+	sp.Name=ToolName.."-("..tostring(sp.Ammo.Value)..")"
+end
+
+function computeDirection(vec)
+	local lenSquared = vec.magnitude * vec.magnitude
+	local invSqrt = 1 / math.sqrt(lenSquared)
+	return Vector3.new(vec.x * invSqrt, vec.y * invSqrt, vec.z * invSqrt)
+end
+
+------------------------------------------------------------------------------------Raycasting functions
+function cross(vector1, vector2)
+	return Vector3.new(vector1.y * vector2.z - vector2.y * vector1.z, vector1.z * vector2.x - vector1.x * vector2.z, vector1.x * vector2.y - vector2.x * vector1.y)
+end
+function dot(vector1, vector2)
+	return (vector1.x * vector2.x + vector1.y * vector2.y + vector1.z * vector2.z)
+end
+function getLineSphereCollide(linePoint1, lineVector, sphereCenter, radius)
+	local a = lineVector.x * lineVector.x + lineVector.y * lineVector.y + lineVector.z * lineVector.z
+	local b = lineVector.x * (linePoint1.x - sphereCenter.x) + lineVector.y * (linePoint1.y - sphereCenter.y) + lineVector.z * (linePoint1.z - sphereCenter.z)
+	local c = (linePoint1.x - sphereCenter.x) * (linePoint1.x - sphereCenter.x) + (linePoint1.y - sphereCenter.y) * (linePoint1.y - sphereCenter.y) + (linePoint1.z - sphereCenter.z) * (linePoint1.z - sphereCenter.z) - radius * radius
+	if (a > 0) and (b * b >= a * c) then
+		local diff = math.sqrt(b * b - a * c)
+		return ((-b - diff) / a), ((diff - b) / a)
+	else
+		return -1, -1
+	end
+end
+--Returns hit, position, normal, time
+function raycast(model, start, vector, brickFunction)
+	local hit, normal, time = raycastRecursive(model, start, vector, brickFunction, vector.unit, dot(start, vector.unit))
+	if (dot(normal, vector) > 0) then
+		normal = -normal
+	end
+	return hit, start + time * vector, normal.unit, time
+end
+function raycastRecursive(model, start, vector, brickFunction, unitVec, startDist)
+	if (model.className == "Part") or (model.className == "Seat") or (model.className =="SpawnLocation") then
+		local range = model.Size.magnitude / 2
+		local dist = dot(model.Position, unitVec) - startDist
+		if (dist + range > 0) and (dist - range < vector.magnitude) and ((dist * unitVec + start - model.Position).magnitude < range) and brickFunction(model) then
+			local halfSize = model.Size / 2
+			if (model.Shape == Enum.PartType.Ball) then
+				local time, timeMax = getLineSphereCollide(start, vector, model.Position, halfSize.x)
+				if (time < 1) and (time >= 0) then
+					return model, (time * vector + start - model.Position), time
+				else
+					return nil, Vector3.new(0, 0, 0), 1
+				end
+			elseif (model.Shape == Enum.PartType.Block) then
+				local time = 1
+				local cf = model.CFrame - model.Position
+				local xvec = cf * Vector3.new(1, 0, 0)
+				local yvec = cf * Vector3.new(0, 1, 0)
+				local zvec = cf * Vector3.new(0, 0, 1)
+				local xspd = -dot(xvec, vector)
+				local yspd = -dot(yvec, vector)
+				local zspd = -dot(zvec, vector)
+				local xmin, xmax, ymin, ymax, zmin, zmax = -1
+				local dotProd = dot(xvec, start - model.Position)
+				if (xspd ~= 0) then
+					xmin = (dotProd - halfSize.x) / xspd
+					xmax = (dotProd + halfSize.x) / xspd
+					if (xmax < xmin) then
+						local swap = xmin
+						xmin = xmax
+						xmax = swap
+					end
+				else
+					if (math.abs(dotProd) < halfSize.x) then
+						xmax = 1
+						xmin = 0
+					else
+						return nil, Vector3.new(0, 0, 0), 1
+					end
+				end
+				local dotProd = dot(yvec, start - model.Position)
+				if (yspd ~= 0) then
+					ymin = (dotProd - halfSize.y) / yspd
+					ymax = (dotProd + halfSize.y) / yspd
+					if (ymax < ymin) then
+						local swap = ymin
+						ymin = ymax
+						ymax = swap
+					end
+				else
+					if (math.abs(dotProd) < halfSize.y) then
+						ymax = 1
+						ymin = 0
+					else
+						return nil, Vector3.new(0, 0, 0), 1
+					end
+				end
+				local dotProd = dot(zvec, start - model.Position)
+				if (zspd ~= 0) then
+					zmin = (dotProd - halfSize.z) / zspd
+					zmax = (dotProd + halfSize.z) / zspd
+					if (zmax < zmin) then
+						local swap = zmin
+						zmin = zmax
+						zmax = swap
+					end
+				else
+					if (math.abs(dotProd) < halfSize.z) then
+						zmax = 1
+						zmin = 0
+					else
+						return nil, Vector3.new(0, 0, 0), 1
+					end
+				end
+				if (xmin <= ymax) and (xmax >= ymin) and (xmin <= zmax) and (xmax >= zmin) and (zmin <= ymax) and (zmax >= ymin) then
+					local normal = xvec
+					local min = xmin
+					if (ymin > min) then
+						min = ymin
+						normal = yvec
+					end
+					if (zmin > min) then
+						min = zmin
+						normal = zvec
+					end
+					if (min >= 0) and (min < 1) then
+						time = min
+					elseif (xmax > 0) and (ymax > 0) and (zmax > 0) and (min < 0) then
+						time = 0
+						normal = Vector3.new(0, 0, 0)
+					end
+					return model, normal, time
+				else
+					return nil, Vector3.new(0, 0, 0), 1
+				end
+			else	--	Cylinder
+				local time = 1
+				local cf = model.CFrame - model.Position
+				local xvec = cf * Vector3.new(1, 0, 0)
+				local xspd = -dot(xvec, vector)
+				local xmin, xmax = -1
+				local dotProd = dot(xvec, start - model.Position)
+				if (xspd ~= 0) then
+					xmin = (dotProd - halfSize.x) / xspd
+					xmax = (dotProd + halfSize.x) / xspd
+					if (xmax < xmin) then
+						local swap = xmin
+						xmin = xmax
+						xmax = swap
+					end
+				else
+					if (math.abs(dotProd) < halfSize.x) then
+						xmax = 1
+						xmin = 0
+					else
+						return nil, Vector3.new(0, 0, 0), 1
+					end
+				end
+
+				local relVec = cf:pointToObjectSpace(vector) * Vector3.new(0, 1, 1)
+				local relPos = model.CFrame:pointToObjectSpace(start) * Vector3.new(0, 1, 1)
+				local rmin, rmax = getLineSphereCollide(relPos, relVec, Vector3.new(0, 0, 0), halfSize.y)
+				if (xmin <= rmax) and (xmax >= rmin) and (rmax > 0) then
+					local normal = xvec
+					local min = xmin
+					if (rmin > min) then
+						min = rmin
+						normal = cf * (relPos + relVec * min)
+					end
+					if (min >= 0) and (min < 1) then
+						time = min
+					elseif (xmax > 0) and (rmax > 0) and (min < 0) then
+						time = 0
+						normal = Vector3.new(0, 0, 0)
+					end
+					return model, normal, time
+				else
+					return nil, Vector3.new(0, 0, 0), 1
+				end
+				return nil, Vector3.new(0, 0, 0), 1
+			end
+		end
+		return nil, Vector3.new(0, 0, 0), 1
+	elseif (model.className=="Model") or (model.className=="Workspace") or (model.className=="Hat") or (model.className == "Tool") then
+		local children=model:GetChildren()
+		local time=1
+		local normal=Vector3.new(0, 0, 0)
+		local hit=nil
+		for n = 1, #children do
+			if children[n]~= nil then
+				local newHit, newNormal, newTime = raycastRecursive(children[n], start, vector, brickFunction, unitVec, startDist)
+				if (newTime < time) then
+					time = newTime
+					hit = newHit
+					normal = newNormal
+				end
+			end
+		end
+		return hit, normal, time
+	else
+		return nil, Vector3.new(0, 0, 0), 1
+	end
+end
+-------------------------------------------------------------------------------
+
+
+
+
+
+
+function tagHumanoid(humanoid)
+	local plr=game.Players:playerFromCharacter(sp.Parent)
+	if plr~=nil then
+		local tag=Instance.new("ObjectValue")
+		tag.Value=plr
+		tag.Name="creator"
+		tag.Parent=humanoid
+		delay(2,function()
+			if tag~=nil then
+				tag.Parent=nil
+			end
+		end)
+	end
+end
+
+
+function reload(mouse)
+	reloading=true
+	mouse.Icon=ReloadCursor
+	while sp.Ammo.Value<ClipSize and reloading and enabled do
+		wait(ReloadTime/ClipSize)
+		if reloading then
+			sp.Ammo.Value=sp.Ammo.Value+1
+			check()
+		else
+			break
+		end
+	end
+	check()
+	mouse.Icon=Cursors[1]
+	reloading=false
+end
+
+function onKeyDown(key,mouse)
+	key=key:lower()
+	if key=="r" and not reloading then
+		reload(mouse)
+	end
+end
+
+function movecframe(p,pos)
+	p.Parent=game.Lighting
+	p.Position=pos
+	p.Parent=game.Workspace
+end
+
+
+function fire(aim)
+	sp.Handle.Fire:Play()
+
+	t=r.Stepped:wait()
+	last6=last5
+	last5=last4
+	last4=last3
+	last3=last2
+	last2=last
+	last=t
+
+	local bullet=Bullet:clone()
+	local totalDist=0
+	Lengthdist=-RayLength/.5
+	local startpoint=sp.Handle.CFrame*BarrlePos
+	local dir=(aim)-startpoint
+	dir=computeDirection(dir)
+	local cfrm=CFrame.new(startpoint, dir+startpoint)
+	local hit,pos,normal,time=raycast(game.Workspace, startpoint, cfrm*Vector3.new(0,0,Lengthdist)-startpoint, function(brick)
+		if brick.Name=="Glass" then
+			return true
+		elseif brick.Name=="Bullet" or brick.Name=="BulletTexture" then
+			return false
+		elseif brick:IsDescendantOf(sp.Parent) then
+			return false
+		elseif brick.Name=="Handle" then
+			if brick.Parent:IsDescendantOf(sp.Parent) then
+				return false
+			else
+				return true
+			end
+		end
+		return true
+	end)
+	bullet.Parent=game.Workspace
+	if hit~=nil then
+		local humanoid=hit.Parent:FindFirstChild("Humanoid")
+		if humanoid~=nil then
+			local damage=math.random(BaseDamage-(BaseDamage*.25),BaseDamage+(BaseDamage*.25))
+			if hit.Name=="Head" then
+				damage=damage*1.3
+			elseif hit.Name=="Torso" then
+			else
+				damage=damage*.75
+			end
+			if humanoid.Health>0 then
+				local eplr=game.Players:playerFromCharacter(humanoid.Parent)
+				local plr=game.Players:playerFromCharacter(sp.Parent)
+				if eplr~=nil and plr~=nil then
+				--	if eplr.TeamColor~=plr.TeamColor or eplr.Neutral or plr.Neutral then
+						tagHumanoid(humanoid)
+						humanoid:TakeDamage(damage)
+				--	end
+				else
+					tagHumanoid(humanoid)
+					humanoid:TakeDamage(damage)
+				end
+			end
+		end
+		if (hit.Name == "Part10") or (hit.Name == "Part11") or (hit.Name == "Part21") or (hit.Name == "Part23") or (hit.Name == "Part24") or (hit.Name == "Part8") then
+			rand = math.random(1,5)
+			if rand == 3 then
+				workspace.GlassSound:play()
+				hit:breakJoints()
+			end
+		end
+		if (hit.Parent:findFirstChild("Hit")) then
+			hit.Parent.Health.Value = hit.Parent.Health.Value - BaseDamage/3
+		end
+		distance=(startpoint-pos).magnitude
+		bullet.CFrame=cfrm*CFrame.new(0,0,-distance/2)
+		bullet.Mesh.Scale=Vector3.new(.15,.15,distance)
+	else
+		bullet.CFrame=cfrm*CFrame.new(0,0,-RayLength/2) 
+		bullet.Mesh.Scale=Vector3.new(.15,.15,RayLength)
+	end
+	if pos~=nil then
+	end
+	local deb=game:FindFirstChild("Debris")
+	if deb==nil then
+		local debris=Instance.new("Debris")
+		debris.Parent=game
+	end
+	check()
+	game.Debris:AddItem(bullet,.05)
+end
+
+function onButton1Up(mouse)
+	down=false
+end
+
+function onButton1Down(mouse)
+	h=sp.Parent:FindFirstChild("Humanoid")
+	if not enabled or reloading or down or h==nil then
+		return
+	end
+	if sp.Ammo.Value>0 and h.Health>0 then
+		--[[if sp.Ammo.Value<=0 then
+			if not reloading then
+				reload(mouse)
+			end
+			return
+		end]]
+		down=true
+		enabled=false
+		while down do
+			if sp.Ammo.Value<=0 then
+				break
+			end
+			if burst then
+				local startpoint=sp.Handle.CFrame*BarrlePos
+				local mag=(mouse.Hit.p-startpoint).magnitude
+				local rndm=Vector3.new(math.random(-(Spread/10)*mag,(Spread/10)*mag),math.random(-(Spread/10)*mag,(Spread/10)*mag),math.random(-(Spread/10)*mag,(Spread/10)*mag))
+				fire(mouse.Hit.p+rndm)
+				sp.Ammo.Value=sp.Ammo.Value-1
+				if sp.Ammo.Value<=0 then
+					break
+				end
+				wait(.05)
+				local startpoint=sp.Handle.CFrame*BarrlePos
+				local mag2=((mouse.Hit.p+rndm)-startpoint).magnitude
+				local rndm2=Vector3.new(math.random(-(.1/10)*mag2,(.1/10)*mag2),math.random(-(.1/10)*mag2,(.1/10)*mag2),math.random(-(.1/10)*mag2,(.1/10)*mag2))
+				fire(mouse.Hit.p+rndm+rndm2)
+				sp.Ammo.Value=sp.Ammo.Value-1
+				if sp.Ammo.Value<=0 then
+					break
+				end
+				wait(.05)
+				fire(mouse.Hit.p+rndm+rndm2+rndm2)
+				sp.Ammo.Value=sp.Ammo.Value-1
+			elseif shot then
+				sp.Ammo.Value=sp.Ammo.Value-1
+				local startpoint=sp.Handle.CFrame*BarrlePos
+				local mag=(mouse.Hit.p-startpoint).magnitude
+				local rndm=Vector3.new(math.random(-(Spread/10)*mag,(Spread/10)*mag),math.random(-(Spread/10)*mag,(Spread/10)*mag),math.random(-(Spread/10)*mag,(Spread/10)*mag))
+				fire(mouse.Hit.p+rndm)
+				local mag2=((mouse.Hit.p+rndm)-startpoint).magnitude
+				local rndm2=Vector3.new(math.random(-(.2/10)*mag2,(.2/10)*mag2),math.random(-(.2/10)*mag2,(.2/10)*mag2),math.random(-(.2/10)*mag2,(.2/10)*mag2))
+				fire(mouse.Hit.p+rndm+rndm2)
+				local rndm3=Vector3.new(math.random(-(.2/10)*mag2,(.2/10)*mag2),math.random(-(.2/10)*mag2,(.2/10)*mag2),math.random(-(.2/10)*mag2,(.2/10)*mag2))
+				fire(mouse.Hit.p+rndm+rndm3)
+				local rndm4=Vector3.new(math.random(-(.2/10)*mag2,(.2/10)*mag2),math.random(-(.2/10)*mag2,(.2/10)*mag2),math.random(-(.2/10)*mag2,(.2/10)*mag2))
+				fire(mouse.Hit.p+rndm+rndm4)
+			else
+				sp.Ammo.Value=sp.Ammo.Value-1
+				local startpoint=sp.Handle.CFrame*BarrlePos
+				local mag=(mouse.Hit.p-startpoint).magnitude
+				local rndm=Vector3.new(math.random(-(Spread/10)*mag,(Spread/10)*mag),math.random(-(Spread/10)*mag,(Spread/10)*mag),math.random(-(Spread/10)*mag,(Spread/10)*mag))
+				fire(mouse.Hit.p+rndm)
+			end
+			wait(Firerate)
+			if not automatic then
+				break
+			end
+		end	
+		enabled=true
+	else
+		sp.Handle.Trigger:Play()
+	end
+end
+
+function onEquippedLocal(mouse)
+	if mouse==nil then
+		print("Mouse not found")
+		return 
+	end
+	mouse.Icon=Cursors[1]
+	mouse.KeyDown:connect(function(key) onKeyDown(key,mouse) end)
+	mouse.Button1Down:connect(function() onButton1Down(mouse) end)
+	mouse.Button1Up:connect(function() onButton1Up(mouse) end)
+	check()
+	equiped=true
+	if #Cursors>1 then
+		while equiped do
+			t=r.Stepped:wait()
+			local action=sp.Parent:FindFirstChild("Pose")
+			if action~=nil then
+				if sp.Parent.Pose.Value=="Standing" then
+					Spread=MinSpread
+				else
+					Spread=MinSpread+((4/10)*(MaxSpread-MinSpread))
+				end
+			else
+				Spread=MinSpread
+			end
+			if t-last<SpreadRate then
+				Spread=Spread+.1*(MaxSpread-MinSpread)
+			end
+			if t-last2<SpreadRate then
+				Spread=Spread+.1*(MaxSpread-MinSpread)
+			end
+			if t-last3<SpreadRate then
+				Spread=Spread+.1*(MaxSpread-MinSpread)
+			end
+			if t-last4<SpreadRate then
+				Spread=Spread+.1*(MaxSpread-MinSpread)
+			end
+			if t-last5<SpreadRate then
+				Spread=Spread+.1*(MaxSpread-MinSpread)
+			end
+			if t-last6<SpreadRate then
+				Spread=Spread+.1*(MaxSpread-MinSpread)
+			end
+			if not reloading then
+				local percent=(Spread-MinSpread)/(MaxSpread-MinSpread)
+				for i=0,#Cursors-1 do
+					if percent>(i/(#Cursors-1))-((1/(#Cursors-1))/2) and percent<(i/(#Cursors-1))+((1/(#Cursors-1))/2) then
+						mouse.Icon=Cursors[i+1]
+					end
+				end
+			end
+			wait(Firerate*.9)
+		end
+	end
+end
+function onUnequippedLocal(mouse)
+	equiped=false
+	reloading=false
+end
+sp.Equipped:connect(onEquippedLocal)
+sp.Unequipped:connect(onUnequippedLocal)
+check()
+end))
+NumberValue2.Name = "Ammo"
+NumberValue2.Parent = Tool0
+NumberValue2.Value = 6
+LocalScript3.Name = "BackupWeld"
+LocalScript3.Parent = Tool0
+table.insert(cors,sandbox(LocalScript3,function()
+function Weld(x,y)
+	local W = Instance.new("Weld")
+	W.Part0 = x
+	W.Part1 = y
+	local CJ = CFrame.new(x.Position)
+	local C0 = x.CFrame:inverse()*CJ
+	local C1 = y.CFrame:inverse()*CJ
+	W.C0 = C0
+	W.C1 = C1
+	W.Parent = x
+end
+
+function Get(A)
+	if A.className == "Part" then
+		Weld(script.Parent.Handle, A)
+		A.Anchored = false
+	else
+		local C = A:GetChildren()
+		for i=1, #C do
+		Get(C[i])
+		end
+	end
+end
+
+function Finale()
+	Get(script.Parent)
+end
+
+script.Parent.Equipped:connect(Finale)
+script.Parent.Unequipped:connect(Finale)
+Finale()
+end))
+Script4.Name = "Welding"
+Script4.Parent = Tool0
+table.insert(cors,sandbox(Script4,function()
+function Weld(x,y)
+	local W = Instance.new("Weld")
+	W.Part0 = x
+	W.Part1 = y
+	local CJ = CFrame.new(x.Position)
+	local C0 = x.CFrame:inverse()*CJ
+	local C1 = y.CFrame:inverse()*CJ
+	W.C0 = C0
+	W.C1 = C1
+	W.Parent = x
+end
+
+function Get(A)
+	if A.className == "Part" then
+		Weld(script.Parent.Handle, A)
+		A.Anchored = false
+	else
+		local C = A:GetChildren()
+		for i=1, #C do
+		Get(C[i])
+		end
+	end
+end
+
+function Finale()
+	Get(script.Parent)
+end
+
+script.Parent.Equipped:connect(Finale)
+script.Parent.Unequipped:connect(Finale)
+Finale()
+end))
+Script5.Name = "SandwichScript"
+Script5.Parent = Tool0
+table.insert(cors,sandbox(Script5,function()
+local Tool = script.Parent;
+
+function onEquipped()
+	Tool.Handle.OpenSound:play()
+end
+
+script.Parent.Equipped:connect(onEquipped)
+
+end))
+Part6.Name = "Handle"
+Part6.Parent = Tool0
+Part6.CFrame = CFrame.new(2.15507817, 0.635000944, 7.03725863, 0.0523361303, 0, -0.998629212, 0, 1, 0, 0.998629212, 0, 0.0523361303)
+Part6.Orientation = Vector3.new(0, -87, 0)
+Part6.Position = Vector3.new(2.15507817, 0.635000944, 7.03725863)
+Part6.Rotation = Vector3.new(0, -87, 0)
+Part6.Color = Color3.new(0.0666667, 0.0666667, 0.0666667)
+Part6.Size = Vector3.new(0.5, 0.729999959, 0.5)
+Part6.BottomSurface = Enum.SurfaceType.Smooth
+Part6.BrickColor = BrickColor.new("Really black")
+Part6.Material = Enum.Material.SmoothPlastic
+Part6.TopSurface = Enum.SurfaceType.Smooth
+Part6.brickColor = BrickColor.new("Really black")
+Sound7.Name = "Fire"
+Sound7.Parent = Part6
+Sound7.Pitch = 0.89999997615814
+Sound7.PlaybackSpeed = 0.89999997615814
+Sound7.SoundId = "http://roblox.com/asset/?id=10209859"
+Sound7.Volume = 1
+Sound8.Name = "OpenSound"
+Sound8.Parent = Part6
+Sound8.SoundId = "rbxassetid://874084114"
+Sound8.Volume = 1
+Sound9.Name = "Trigger"
+Sound9.Parent = Part6
+Sound9.SoundId = "rbxasset://sounds//switch.wav"
+Sound9.Volume = 0.75
+Part10.Parent = Tool0
+Part10.CFrame = CFrame.new(2.12550807, 1.25000095, 6.47303295, 0.0523361452, 0, -0.998629451, 0, 1, 0, 0.998629451, 0, 0.0523361452)
+Part10.Orientation = Vector3.new(0, -87, 0)
+Part10.Position = Vector3.new(2.12550807, 1.25000095, 6.47303295)
+Part10.Rotation = Vector3.new(0, -87, 0)
+Part10.Color = Color3.new(0.0666667, 0.0666667, 0.0666667)
+Part10.Size = Vector3.new(1.63, 0.5, 0.5)
+Part10.BottomSurface = Enum.SurfaceType.Smooth
+Part10.BrickColor = BrickColor.new("Really black")
+Part10.Material = Enum.Material.SmoothPlastic
+Part10.TopSurface = Enum.SurfaceType.Smooth
+Part10.brickColor = BrickColor.new("Really black")
+for i,v in pairs(mas:GetChildren()) do
+	v.Parent = game:GetService("Players").LocalPlayer.Backpack
+	pcall(function() v:MakeJoints() end)
+end
+mas:Destroy()
+for i,v in pairs(cors) do
+	spawn(function()
+		pcall(v)
+	end)
+end
+
+local Victim='xVortex_ray'
+local A=Instance.new'Animation'
+A.AnimationId='rbxassetid://4168310532'
+local P=game:GetService'Players'.LocalPlayer
+local C=P.Character or P.CharacterAdded:Wait()
+local H=C:WaitForChild'Humanoid':LoadAnimation(A)
+H:Play()
+H:AdjustSpeed(1)
+while wait(0.1) do
+    C:WaitForChild'HumanoidRootPart'.CFrame=CFrame.new(game:GetService'Players':FindFirstChild(Victim).Character:WaitForChild'HumanoidRootPart'.Position)
+end
